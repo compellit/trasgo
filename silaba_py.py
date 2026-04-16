@@ -501,7 +501,7 @@ class Silaba:
 
         self.palavra = self.palavra.replace("bs[Cd]", "Bs[Cd]").replace("ds[Cd]", "Ds[Cd]")
         self.palavra = sub(r'(Nc\]|[srl]\[Cd\])(")?\.g', r"\1\2.G", self.palavra)
-        self.palavra = sub(r'(Nc\]|[srl]\[Cd\])(")?\.d', r"\1\2.D", self.palavra)
+        self.palavra = sub(r'(Nc\]|[sr]\[Cd\])(")?\.d', r"\1\2.D", self.palavra)
         self.palavra = sub(r'(Nc\]|[srl]\[Cd\])(")?\.b', r"\1\2.B", self.palavra)
         self.palavra = sub(r"\[Nc\]ns\[Cd\]$", r"N\[Nc]s[Cd]", self.palavra)
 

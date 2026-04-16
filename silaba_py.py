@@ -506,7 +506,8 @@ class Silaba:
         self.palavra = sub(r"\[Nc\]ns\[Cd\]$", r"N\[Nc]s[Cd]", self.palavra)
 
         if not self.args.b:
-            self.palavra = self.palavra.replace("l[Cd]", "5[Cd]")
+            self.palavra = sub(r'l(\[Cd\])(")?(\.[gGk]|$)', r"5\1\2\3", self.palavra)
+            # self.palavra = self.palavra.replace("l[Cd]", "5[Cd]")
             self.palavra = self.palavra.replace("s", "_s")
 
         for vowel in "aeiou":

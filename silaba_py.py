@@ -246,17 +246,20 @@ class Silaba:
         br_words: list[str],
         bl_words: list[str],
     ) -> None:
+        # Diphthongs are marked as nucleus.
         for d in dip:
             if search(r"gi", self.palavra):
                 self.palavra = sub(rf"(^|[^\]\{{gk])({re.escape(d)})", rf"\1{{\2}}[Nc]", self.palavra)
             else:
                 self.palavra = sub(rf"(^|[^\]\{{])({re.escape(d)})", rf"\1{{\2}}[Nc]", self.palavra)
 
+        # Vowels are marked as nucleus.
         for v in nc:
             pat = rf"([^\{{]|^)({re.escape(v)})([^\}}]|$)"
             self.palavra = sub(pat, r"\1{\2}[Nc]\3", self.palavra)
             self.palavra = sub(pat, r"\1{\2}[Nc]\3", self.palavra)
 
+        # If word is BR/BL, split into coda/onset (no complex onset).
         for br in br_words:
             if search(br, self.entrada):
                 self.palavra = sub(r"br", r"{b}[Cd]{R}[At]", self.palavra, count=1)
@@ -264,14 +267,17 @@ class Silaba:
             if search(bl, self.entrada):
                 self.palavra = sub(r"bl", r"{b}[Cd]{l}[At]", self.palavra, count=1)
 
+        # Digraphs are marked as onsets.
         for d in dig:
             pat = rf"([^\{{]|^)({re.escape(d)})([^\}}]|$)"
             self.palavra = sub(pat, r"\1{\2}[At]\3", self.palavra)
             self.palavra = sub(pat, r"\1{\2}[At]\3", self.palavra)
 
+        # Complex onsets are marked.
         for onset in atc:
             self.palavra = sub(rf"({onset})", r"{\1}[At]", self.palavra)
 
+        # Simple onsets are marked.
         for onset in ats:
             self.palavra = sub(
                 rf"({re.escape(onset)})([aeiouáéíóúãõâêôwj\{{\}}]+)\[Nc\]",
@@ -279,9 +285,11 @@ class Silaba:
                 self.palavra,
             )
 
+        # Vocalized "k/g" have the "vowel" in the onset.
         if search(r"\{[gk]\}\[At\]\{w", self.palavra):
             self.palavra = sub(r"\{(g|k)\}\[At\]\{w\}\[Nc\]", r"{\1w}[At]", self.palavra)
 
+        # Complex (and "strange") codas are marked.
         for c in cdc:
             self.palavra = sub(
                 rf"([^\{{\[])(?:{re.escape(c)})([^\}}\]]|$)",
@@ -289,6 +297,7 @@ class Silaba:
                 self.palavra,
             )
 
+        # Simple codas are marked.
         for c in cd:
             self.palavra = sub(
                 rf"([^\{{\[])(?:{re.escape(c)})([^\}}\]]|$)",
@@ -304,23 +313,27 @@ class Silaba:
             self.palavra = self.palavra.replace("{r}[Cd]{s}[Cd]", "{rs}[Cd]")
 
     def _split_syllables_and_stress_pt(self, aton: list[str]) -> None:
+        # Special rule to diphthongize words with "ial".
         if search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada):
             self.palavra = self.palavra.replace("{i}[Nc]{a}[Nc]{l}", "{ia}[Nc]{l}")
 
         if search(r"[kg]\}\[At\]\{u\}\[Nc\]\{(e|i|é|ê|í)", self.palavra):
             self.palavra = sub(r"(k|g)\}\[At\]\{u\}\[Nc\]\{(e|é|ê|i|í)", r"\1w}[At]{\2", self.palavra)
 
+        # Special rule to parse "w/y(j)" as a glide.
         if search(r"{wi}", self.palavra):
             self.palavra = self.palavra.replace("{wi}", "{uj}")
         if search(r"\{[wj]\}\[Nc\]", self.palavra):
             self.palavra = sub(r"\{(w|j)\}\[Nc\]\{(a|e|i|o|u|á|é|í|ó|ú|â|ê|ô)\}", r"{\1\2}", self.palavra)
             self.palavra = sub(r"\{(a|e|i|o|u|á|é|í|ó|ú|â|ê|ô)\}\[Nc\]\{(w|j)\}\[Nc\]", r"{\1\2}[Nc]", self.palavra)
 
+        # Special rule: diphthong before a coda different from "s" is hiatus.
         if search(r"\{[aeo][iu]\}\[Nc\]\{[^s]\}\[Cd\]", self.palavra):
             self.palavra = sub(r"\{([aeo])([iu])\}\[Nc\]\{([^s])\}\[Cd\]", r"{\1}[Nc]{\2}[Nc]{\3}[Cd]", self.palavra)
 
         self._finish_syllable_split()
 
+        # Stress assignment.
         if search(r"(á|é|í|ó|ú|ã|õ|â|ê|ô)", self.palavra):
             self.palavra = sub(r"\.([^\.]+)?([áéíóúãõâêô])", r'".\1\2', self.palavra, count=1)
         elif search(r"([^slrmnaeioujw2])$", self.input_word):
@@ -331,6 +344,7 @@ class Silaba:
         else:
             self.palavra = sub(r"\.([^\.]+)$", r'".\1', self.palavra, count=1)
 
+        # Unstressed words: remove the accent.
         if self.entrada in aton:
             self.palavra = self.palavra.replace('"', "")
 
@@ -338,16 +352,19 @@ class Silaba:
         self.palavra = self.palavra.replace("ê", "e").replace("í", "i").replace("ó", "O")
         self.palavra = self.palavra.replace("ô", "o").replace("ú", "u")
 
+        # Pre-stressed "i.o" to "io" (confesional).
         if search(r"[sxc]io", self.entrada):
             self.palavra = self.palavra.replace("]i[Nc].o[Nc]\"", "]io[Nc]\"")
 
     def _split_syllables_and_stress_ilg(self, aton: list[str]) -> None:
+        # Special rule to diphthongize words with "ial".
         if search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada):
             self.palavra = self.palavra.replace("{i}[Nc]{a}[Nc]{l}", "{ia}[Nc]{l}")
 
         if search(r"[kg]\}\[At\]\{u\}\[Nc\]\{(e|i|é|í)", self.palavra):
             self.palavra = sub(r"(k|g)\}\[At\]\{u\}\[Nc\]\{(e|é|i|í)", r"\1w}[At]{\2", self.palavra)
 
+        # Special rules to parse words with "w/y(j)" as a glide.
         if search(r"{wi}", self.palavra):
             self.palavra = self.palavra.replace("{wi}", "{uj}")
         if search(r"\{[wj]\}\[Nc\]", self.palavra):
@@ -356,6 +373,7 @@ class Silaba:
 
         self._finish_syllable_split()
 
+        # Stress assignment.
         if search(r"á|é|í|ó|ú", self.palavra):
             self.palavra = sub(r"\.([^\.]+)?([áéíóú])", r'".\1\2', self.palavra, count=1)
         elif not search(r"(n|s)\[Cd\]$", self.palavra) and search(r"\[Cd\]$", self.palavra):
@@ -368,24 +386,30 @@ class Silaba:
         else:
             self.palavra = sub(r"\.([^\.]+)$", r'".\1', self.palavra)
 
+        # Unstressed words: remove the accent.
         if self.entrada in aton:
             self.palavra = self.palavra.replace('"', "")
 
         self.palavra = self.palavra.replace("á", "a").replace("é", "e").replace("í", "i")
         self.palavra = self.palavra.replace("ï", "i").replace("ó", "o").replace("ú", "u")
 
+        # Words ending in -ción/xión/sión (and with internal "cion"): diphthong.
         if search(r"[cxs]ións?$", self.entrada) or search(r"[scx]ion", self.entrada):
             self.palavra = sub(r"\.(s|T)\[At\]i\[Nc\]\"\.o\[Nc\]", r'".\1[At]jo[Nc]', self.palavra)
             self.palavra = sub(r"\.(s|T)\[At\]i\[Nc\]\.o\[Nc\]\.n\[At\]", r".\1[At]jo[Nc].n[At]", self.palavra)
+        # Pre-stressed "i.o" to "io" (confesional).
         if search(r"[xcs]io", self.entrada):
             self.palavra = self.palavra.replace("]i[Nc].o[Nc]\"", "]jo[Nc]\"")
 
     def _finish_syllable_split(self) -> None:
+        # Inserts a vowel or deletes the first onset (psicólogo).
         if search(r"^([^\{])\{([^\}]*)\}\[At\]", self.palavra):
             self.palavra = sub(r"^([^\{])\{([^\}]*)\}\[At\]", r"{\2}[At]", self.palavra)
+        # "Strange codas": foreign words ending in onsets: onset > coda.
         if search(r"\{tS\}\[At\]$", self.palavra):
             self.palavra = self.palavra.replace("{tS}[At]", "{tS}[Cd]")
 
+        # If there are any elements outside the constituents, the word was not well parsed.
         if (
             search(r"\]([^\{\ \.]+)(\{|$)", self.palavra)
             or search(r"At\]\{..?\}\[At\]", self.palavra)
@@ -395,7 +419,10 @@ class Silaba:
         ):
             raise SilabaError("erro")
 
+        # Constituent marks are removed.
         self.palavra = self.palavra.replace("{", "").replace("}", "")
+
+        # Syllable splitter.
         self.palavra = sub(r"([^\]]+)\[At\]", r".\1[At]", self.palavra)
         self.palavra = sub(r"^([^\]]+)\[Nc\]", r".\1[Nc]", self.palavra)
         self.palavra = sub(r"([^\]]+)\[Nc\]([^\.\[]+)\[Nc\]", r"\1[Nc].\2[Nc]", self.palavra)
@@ -460,11 +487,13 @@ class Silaba:
                 self.palavra = sub(r"e([^e]*)\"", r'E\1"', self.palavra)
 
     def apply_shared_postlexical_rules(self) -> None:
+        # Oral diphthongs.
         self.palavra = sub(r"([aeou])[ij]", r"\1j", self.palavra)
         self.palavra = sub(r"([aeo])u", r"\1w", self.palavra)
         self.palavra = self.palavra.replace("]ia[", "]ja[")
         self.palavra = sub(r"\]a\[Nc\]\.o\[Nc\](s\[Cd\])?", r"]aw[Nc]\1", self.palavra)
 
+        # Complex codas.
         if not self.args.c:
             self.palavra = sub(r'n\[Cd\](")?\.n\[At\]', r"\1.n[At]", self.palavra)
             self.palavra = sub(r'g\[Cd\](")?\.n\[At\]', r'n[Cd]\1.n[At]', self.palavra)
@@ -483,14 +512,17 @@ class Silaba:
             if search(r"(á|é|í|ó|ú)", self.palavra) and not search(r"(á|é|í|ó|ú)\[Nc\][nN]s\[Cd\]$", self.palavra):
                 self.palavra = sub(r"[nN]s\[Cd\]$", r"s[Cd]", self.palavra)
 
+        # Flag -t: thetacism.
         if not self.args.t:
             self.palavra = self.palavra.replace("T", "s")
 
+        # Flag -h: gheada.
         if self.args.h:
             self.palavra = sub(r'n\[Cd\](")?\.\g', "", self.palavra) if False else self.palavra
             self.palavra = sub(r'n\[Cd\](")?\.g', r'n[Cd]\1.k', self.palavra)
             self.palavra = self.palavra.replace("g", "H")
 
+        # Post-lexical rules.
         if self.args.r:
             self.palavra = sub(r's\[Cd\](")?\.([bdgfjmnSsJlLT])', r'r[Cd]\1.\2', self.palavra)
             self.palavra = sub(r's\[Cd\](")?\.R', r"\1.R", self.palavra)
@@ -505,15 +537,24 @@ class Silaba:
         self.palavra = sub(r'(Nc\]|[srl]\[Cd\])(")?\.b', r"\1\2.B", self.palavra)
         self.palavra = sub(r"\[Nc\]ns\[Cd\]$", r"N\[Nc]s[Cd]", self.palavra)
 
+        # Broad representation.
         if not self.args.b:
             self.palavra = sub(r'l(\[Cd\])(")?(\.[gGk]|$)', r"5\1\2\3", self.palavra)
             # self.palavra = self.palavra.replace("l[Cd]", "5[Cd]")
             self.palavra = self.palavra.replace("s", "_s")
 
+        # Vowels.
         for vowel in "aeiou":
             self._apply_vowel_surface_rules(vowel)
 
+        # Implosive nasal: velar.
         self.palavra = sub(r"n(.)?\[Cd\]", r"N\1[Cd]", self.palavra)
+
+        # Nasalized vowel:
+        # (1) between two nasal segments
+        # (2) beginning
+        # (3) with a nasal segment into the nucleus
+        # (4) in inho/a(s)
         self.palavra = sub(r"(J|m|n)\[At\](a|e|i|o|u|A|E|I|O|U)\[Nc\]N", r"\1[At]\2~[Nc]N", self.palavra)
         self.palavra = sub(r"(J|m|n)\[At\](a|e|i|o|u|A|E|I|O|U)N\[Nc\]", r"\1[At]\2~N[Nc]", self.palavra)
         self.palavra = sub(r"(a|e|i|o|u|A|E|I|O|U)N\\\[Nc\]", r"\1~N\[Nc]", self.palavra)

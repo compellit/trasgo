@@ -548,7 +548,13 @@ class Silaba:
             self._apply_vowel_surface_rules(vowel)
 
         # Implosive nasal: velar.
-        self.palavra = sub(r"n(.)?\[Cd\]", r"N\1[Cd]", self.palavra)
+        # self.palavra = sub(r"n(.)?\[Cd\]", r"N\1[Cd]", self.palavra)
+        self.palavra = sub(r"[nm](\[Cd\]$)", r"N\1", self.palavra)
+        self.palavra = sub(r"[nm](\[Cd\]\"?\.[gksnm])", r"N\1", self.palavra)
+        self.palavra = sub(r"[nm](\[Cd\]\"?\.[pb])", r"m\1", self.palavra)
+        self.palavra = sub(r"[nm](\[Cd\]\"?\.t?S)", r"J\1", self.palavra)
+        
+        
 
         # Nasalized vowel:
         # (1) between two nasal segments
@@ -836,7 +842,7 @@ class Silaba:
             (r"v", "b"), (r"gu(e|é|i|í)", r"g\1"), (r"qu", "k"), (r"ü(e|é|i|í)", r"u\1"),
             (r"ch", "tS"), (r"c(e|é|i|í)", r"T\1"), (r"c", "k"), (r"z", "T"), (r"ll", "L"),
             (r"ñ", "J"), (r"rr", "R"), (r"^r", "R"), (r"(n|m|l|s)r", r"\1R"),
-            (r"m([^aeiouáéíóúw])?$", r"n\1"), (r"m([^aeiouáéíóúw])", r"n\1"),
+#            (r"m([^aeiouáéíóúw])?$", r"n\1"), (r"m([^aeiouáéíóúw])", r"n\1"),
             (r"x$", "ks"), (r"x([ptkcbdgTfs])", r"ks\1"), (r"x", "S"), (r"y", "j")
         ]:
             self.palavra = sub(pat, repl, self.palavra)

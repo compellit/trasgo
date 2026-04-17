@@ -268,6 +268,7 @@ def main() -> int:
     silaba_errors = 0
     skipped_rows = 0
     output_rows: list[dict[str, str]] = []
+    form_stats: dict[str, dict[str, object]] = {}
 
     for row in rows:
         word = (row.get(word_col) or "").strip()
@@ -279,16 +280,6 @@ def main() -> int:
             break
 
         total += 1
-        if args.progress_every and total % args.progress_every == 0:
-            running_accuracy = exact / total if total else 0.0
-            running_cer = total_distance / total_ref_chars if total_ref_chars else 0.0
-            print(
-                f"Processed {total} words | "
-                f"exact: {exact} | "
-                f'silaba_erro: {silaba_errors} | '
-                f"accuracy: {running_accuracy:.4f} | "
-                f"cer: {running_cer:.4f}"
-            )
         pred_sampa_raw = predict_sampa(word, args.mode, c=args.c, t=args.t, r=args.r, h=args.h, b=args.b)
         pred_sampa = strip_syllable_dots(pred_sampa_raw)
         gold_sampa = ipa_to_silaba_sampa(gold_phon)
@@ -304,14 +295,21 @@ def main() -> int:
         )
 
         is_exact = pred_norm == gold_norm
-        if is_exact:
-            exact += 1
         if pred_sampa_raw == "erro":
             silaba_errors += 1
 
         dist = levenshtein(pred_norm, gold_norm)
-        total_distance += dist
-        total_ref_chars += max(len(gold_norm), 1)
+        if word not in form_stats:
+            form_stats[word] = {
+                "any_exact": is_exact,
+                "best_dist": dist,
+                "best_ref_len": max(len(gold_norm), 1),
+            }
+        else:
+            form_stats[word]["any_exact"] = bool(form_stats[word]["any_exact"]) or is_exact
+            if dist < int(form_stats[word]["best_dist"]):
+                form_stats[word]["best_dist"] = dist
+                form_stats[word]["best_ref_len"] = max(len(gold_norm), 1)
 
         annotated = {
             "forma": word,
@@ -323,12 +321,37 @@ def main() -> int:
         }
         output_rows.append(annotated)
 
-    accuracy = exact / total if total else 0.0
+        if args.progress_every and total % args.progress_every == 0:
+            running_unique_forms = len(form_stats)
+            running_exact = sum(1 for stats in form_stats.values() if bool(stats["any_exact"]))
+            running_distance = sum(int(stats["best_dist"]) for stats in form_stats.values())
+            running_ref_chars = sum(int(stats["best_ref_len"]) for stats in form_stats.values())
+            running_accuracy = running_exact / running_unique_forms if running_unique_forms else 0.0
+            running_cer = running_distance / running_ref_chars if running_ref_chars else 0.0
+            print(
+                f"Processed {total} rows | "
+                f"unique_forms: {running_unique_forms} | "
+                f"exact_forms: {running_exact} | "
+                f'silaba_erro: {silaba_errors} | '
+                f"accuracy: {running_accuracy:.4f} | "
+                f"cer: {running_cer:.4f}"
+            )
+
+    form_correct = {forma for forma, stats in form_stats.items() if bool(stats["any_exact"])}
+    for row in output_rows:
+        row["correct_for_form"] = str(row["forma"] in form_correct)
+
+    unique_forms = len(form_stats)
+    exact = len(form_correct)
+    total_distance = sum(int(stats["best_dist"]) for stats in form_stats.values())
+    total_ref_chars = sum(int(stats["best_ref_len"]) for stats in form_stats.values())
+    accuracy = exact / unique_forms if unique_forms else 0.0
     cer = total_distance / total_ref_chars if total_ref_chars else 0.0
 
     print(f"Rows evaluated: {total}")
     print(f"Rows skipped: {skipped_rows}")
-    print(f"Exact matches: {exact}")
+    print(f"Unique forms evaluated: {unique_forms}")
+    print(f"Exact matches by form: {exact}")
     print(f"Accuracy: {accuracy:.4f}")
     print(f"Character error rate: {cer:.4f}")
     print(f'Silaba "erro" predictions: {silaba_errors}')

@@ -390,16 +390,20 @@ class Silaba:
         if self.entrada in aton:
             self.palavra = self.palavra.replace('"', "")
 
+        # # Words ending in -ción/xión/sión (and with internal "cion"): diphthong.
+        # if search(r"[cxs]ións?$", self.entrada) or search(r"[scx]ion", self.entrada):
+        #     self.palavra = sub(r"\.(s|T)\[At\]i\[Nc\]\"\.ó\[Nc\]", r'".\1[At]jo[Nc]', self.palavra)
+        #     self.palavra = sub(r"\.(s|T)\[At\]i\[Nc\]\.o\[Nc\]\.n\[At\]", r".\1[At]jo[Nc].n[At]", self.palavra)
+        # # Pre-stressed "i.o" to "io" (confesional).
+        # if search(r"[xcs]io", self.entrada):
+        #     self.palavra = self.palavra.replace("]i[Nc].o[Nc]\"", "]jo[Nc]\"")
+
+        self.palavra = sub(r"\.([^\.]+\[At\])?i\[Nc\](\")?\.([aeouáéóú])\[Nc\]", r'.\2\1j\3[Nc]', self.palavra)
+        self.palavra = sub(r"\.([^\.]+\[At\])?u\[Nc\](\")?\.([aeioáéíó])\[Nc\]", r'.\2\1w\3[Nc]', self.palavra)
+
+
         self.palavra = self.palavra.replace("á", "a").replace("é", "e").replace("í", "i")
         self.palavra = self.palavra.replace("ï", "i").replace("ó", "o").replace("ú", "u")
-
-        # Words ending in -ción/xión/sión (and with internal "cion"): diphthong.
-        if search(r"[cxs]ións?$", self.entrada) or search(r"[scx]ion", self.entrada):
-            self.palavra = sub(r"\.(s|T)\[At\]i\[Nc\]\"\.o\[Nc\]", r'".\1[At]jo[Nc]', self.palavra)
-            self.palavra = sub(r"\.(s|T)\[At\]i\[Nc\]\.o\[Nc\]\.n\[At\]", r".\1[At]jo[Nc].n[At]", self.palavra)
-        # Pre-stressed "i.o" to "io" (confesional).
-        if search(r"[xcs]io", self.entrada):
-            self.palavra = self.palavra.replace("]i[Nc].o[Nc]\"", "]jo[Nc]\"")
 
     def _finish_syllable_split(self) -> None:
         # Inserts a vowel or deletes the first onset (psicólogo).
@@ -488,6 +492,7 @@ class Silaba:
 
     def apply_shared_postlexical_rules(self) -> None:
         # Oral diphthongs.
+        self.palavra = sub(r"\.[^\.]?k\[At\]u([eoiáéóí]\[Nc\])", r'.k[At]w\1', self.palavra)
         self.palavra = sub(r"([aeou])[ij]", r"\1j", self.palavra)
         self.palavra = sub(r"([aeo])u", r"\1w", self.palavra)
         self.palavra = self.palavra.replace("]ia[", "]ja[")
@@ -803,10 +808,39 @@ class Silaba:
         br_words = ["abroga", "subrep", "subroga", "subruti", "subroti"]
         bl_words = ["oblong", "ablegad", "sublimin", "subling", "subluna", "subliñ"]
         aton = ["con", "que", "en", "me", "te", "lle", "se", "o", "a", "os", "as", "de", "sen", "che", "llo", "lla", "lles", "llos", "cho", "cha", "chos", "chas", "por", "e", "mais"]
+        letras = {
+            'a': 'a',
+            'b': '"be',
+            'c': '"Te',
+            'd': '"de',
+            'f': '"Efe',
+            'g': '"ge',
+            'h': '"atSe',
+            'i': '"i',
+            'j': '"jOta',
+            'k': '"ka',
+            'l': '"Ele',
+            'm': '"Eme',
+            'n': '"Ene',
+            'p': '"pe',
+            'q': '"ke',
+            'r': '"Ere',
+            's': '"Ese',
+            't': '"te',
+            'v': '"uBe',
+            'w': '"uBe"DoBre',
+            'x': '"Se',
+            'y': '"i"GrEGo',
+            'z': '"Teta',
+            'ñ': '"EJe',
+        }
 
         self.entrada = word.lower()
         self.input_word = self.entrada
         self.palavra = self.entrada
+
+        if self.palavra in letras.keys():
+            return letras[self.palavra]
 
         if search(r"(eiro|eira|iño|iña|ciño|ciña|mente|ito|ita)", self.entrada):
             self.entrada2 = self.entrada

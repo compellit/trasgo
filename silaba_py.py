@@ -600,7 +600,7 @@ class Silaba:
         ats = ["b", "d", "g", "p", "t", "k", "s", "T", "f", "l", "L", "m", "n", "J", "r", "R", "S"]
         cd = ["s", "l", "m", "r", "n", "N", "b", "d", "g", "T"]
         cdc = ["gs", "ks", "bs", "ds", "ns", "ng", "nk", "np", "nt", "nb", "rg", "rk", "rs", "rt", "rd", "st", "ts", "lf", "ls", "lk", "ps", "ks", "k", "p", "f", "t"]
-        br_words = ["abroga", "subrep", "subroga", "subruti", "subroti"]
+        br_words = ["abrog", "subrep", "subrog", "subruti", "subroti"]
         bl_words = ["oblong", "ablegad", "sublimin", "subling", "subluna", "subliñ"]
         aton = ["com", "que", "en", "me", "te", "lle", "se", "o", "a", "os", "as", "de", "sen", "che", "llo", "lla", "lles", "llos", "cho", "cha", "chos", "chas", "por", "e", "mas"]
         agem = ["aldragem", "apagem", "arragem", "atarragem", "avantagem", "degagem", "desencoragem", "desengragem", "desgagem", "deslagem", "encoragem", "engraxem", "malagem", "relaxem", "tarragem", "tagem", "tragem"]

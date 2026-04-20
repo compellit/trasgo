@@ -11,6 +11,10 @@ from types import SimpleNamespace
 
 from silaba_py import Silaba, SilabaError
 
+HERE = Path(__file__).resolve().parent
+RESULTS_DIR = HERE / "results"
+SUMMARY_PATH = RESULTS_DIR / "summary.tsv"
+
 
 def guess_delimiter(path: Path) -> str:
     if path.suffix.lower() == ".tsv":
@@ -196,6 +200,30 @@ def write_rows(path: Path, rows: list[dict[str, str]], delimiter: str) -> None:
         writer.writerows(rows)
 
 
+def append_summary(path: Path, summary: dict[str, str]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    write_header = not path.exists() or path.stat().st_size == 0
+    with path.open("a", encoding="utf-8", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=list(summary.keys()), delimiter="\t")
+        if write_header:
+            writer.writeheader()
+        writer.writerow(summary)
+
+
+def next_numbered_results_path(results_dir: Path) -> Path:
+    results_dir.mkdir(parents=True, exist_ok=True)
+    used_numbers: set[int] = set()
+    for path in results_dir.glob("*.tsv"):
+        if re.fullmatch(r"\d{3}", path.stem):
+            used_numbers.add(int(path.stem))
+
+    for number in range(1, 1000):
+        if number not in used_numbers:
+            return results_dir / f"{number:03d}.tsv"
+
+    raise SystemExit("No free output filenames left in results/ (001-999).")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description="Evaluate silaba_py.py against a CSV/TSV with orthographic and phonetic columns.",
@@ -259,8 +287,7 @@ def main() -> int:
     if missing:
         raise SystemExit(f"Missing required columns: {', '.join(missing)}")
 
-    output_path = Path(args.output_file) if args.output_file else input_path.with_name(f"{input_path.stem}_silaba_eval.tsv")
-
+    output_path = Path(args.output_file) if args.output_file else next_numbered_results_path(RESULTS_DIR)
     total = 0
     exact = 0
     total_distance = 0
@@ -358,6 +385,34 @@ def main() -> int:
 
     write_rows(output_path, output_rows, "\t")
     print(f"Wrote annotated results to {output_path}")
+
+    summary = {
+        "input_file": str(input_path.resolve()),
+        "annotated_output_file": str(output_path.resolve()),
+        "delimiter": "\\t" if delimiter == "\t" else delimiter,
+        "no_header": str(args.no_header),
+        "word_col": word_col,
+        "phon_col": phon_col,
+        "mode": args.mode,
+        "compare_mode": args.compare_mode,
+        "ignore_open_close_vowels": str(args.ignore_open_close_vowels),
+        "flag_c": str(args.c),
+        "flag_t": str(args.t),
+        "flag_r": str(args.r),
+        "flag_h": str(args.h),
+        "flag_b": str(args.b),
+        "limit": "" if args.limit is None else str(args.limit),
+        "rows_in_input_file": str(len(rows)),
+        "rows_evaluated": str(total),
+        "rows_skipped": str(skipped_rows),
+        "unique_forms_evaluated": str(unique_forms),
+        "exact_matches_by_form": str(exact),
+        "accuracy": f"{accuracy:.6f}",
+        "character_error_rate": f"{cer:.6f}",
+        "silaba_erro_predictions": str(silaba_errors),
+    }
+    append_summary(SUMMARY_PATH, summary)
+    print(f"Wrote summary results to {SUMMARY_PATH}")
 
     return 0
 

@@ -837,7 +837,7 @@ class Silaba:
 
         self.entrada = word.lower()
         self.input_word = self.entrada
-        self.palavra = self.entrada
+        self.palavra = self.entrada.replace("-", "")
 
         if self.palavra in letras.keys():
             return letras[self.palavra]

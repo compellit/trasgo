@@ -1,2 +1,3 @@
 input_file	annotated_output_file	delimiter	no_header	word_col	phon_col	mode	compare_mode	ignore_open_close_vowels	flag_c	flag_t	flag_r	flag_h	flag_b	limit	rows_in_input_file	rows_evaluated	rows_skipped	unique_forms_evaluated	exact_matches_by_form	accuracy	character_error_rate	silaba_erro_predictions
 /home/anxo/compellit/silaba_gl/data/banco_de_voces_pronuncia_dev.csv	/home/anxo/compellit/silaba_gl/results/001.tsv	,	True	col_1	col_3	i	no_dots	False	True	True	False	False	True		50056	47116	2940	44418	37193	0.837341	0.026343	104
+/home/anxo/compellit/silaba_gl/data/banco_de_voces_pronuncia_dev.csv	/home/anxo/compellit/silaba_gl/results/002.tsv	,	True	col_1	col_3	i	no_dots	False	True	True	False	False	True		50056	47116	2940	44418	37195	0.837386	0.025921	74

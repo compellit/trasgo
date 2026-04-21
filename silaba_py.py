@@ -394,7 +394,7 @@ class Silaba:
         # High vowel + stressed vowel
         if search(r"\"(\.)?([^\[]{,2}\[At\])?[iu]([aeoEO])", self.palavra):
             if not (search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada) or
-                    search(r"[cxs]ións?$", self.entrada) or search(r"[scx]ion", self.entrada) or
+                    search(r"ións?$", self.entrada) or search(r"[scx]ion", self.entrada) or
                     search(r"[xcs]io", self.entrada)):
                 self.palavra = sub(r"(\")(\.)?([^\[]{,2}\[At\])?([iu])([aeoEO])",r"\2\3\4[Nc]\1.\5", self.palavra)
 

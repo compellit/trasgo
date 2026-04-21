@@ -1,0 +1,2 @@
+input_file	annotated_output_file	delimiter	no_header	word_col	phon_col	compare_mode	ignore_open_close_vowels	cotovia_lang	cotovia_trace	limit	rows_in_input_file	rows_evaluated	rows_skipped	unique_forms_evaluated	exact_matches_by_form	accuracy	character_error_rate	cotovia_erro_predictions
+/home/anxo/compellit/silaba_gl/data/banco_de_voces_pronuncia_dev.csv	/home/anxo/compellit/silaba_gl/results_cotovia/001.tsv	,	True	col_1	col_3	no_dots	False	gl	3		50056	47116	2940	44418	27015	0.608199	0.062756	0

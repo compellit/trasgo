@@ -122,7 +122,7 @@ for ortho, pred, gold in df[["forma", "silaba_output_raw","gold_sampa_preproc"]]
                     #an onset cluster (handle foreign word/cultism exceptions)
                     (syll[1] in STOPS_F + ["b", "d", "g"] and
                      syll[2] in ["l", "r"]) and not
-                     syll[1:2] in ["dl", "tl"]):
+                     syll[1:3] == "dl"):
                     sylls[i-1] += syll[:2]
                     sylls[i] = syll[2:]
                 else:
@@ -135,7 +135,7 @@ for ortho, pred, gold in df[["forma", "silaba_output_raw","gold_sampa_preproc"]]
             if syll[0] not in VOWELS and syll[1] not in VOWELS_SEMI:
                 if not(syll[0] in STOPS_F and
                      syll[1] in ["l", "r"] and not
-                     syll[:1] in ["dl", "tl"]):
+                     syll[:2] == "dl"):
                     sylls[i-1] += syll[0]
                     sylls[i] = syll[1:]
 
@@ -148,7 +148,7 @@ for ortho, pred, gold in df[["forma", "silaba_output_raw","gold_sampa_preproc"]]
     pred = pred.replace(".\\\"", "\\\".")
     correct = syllabified_gold == pred
     total_correct = total_correct + 1 if correct else total_correct
-    if re.search(r"j\.[aeouOE]|[OEaeou]i|tl", pred):
+    if re.search(r"j\.[aeouOE]|[OEaeou]i", pred):
         wrong_pred = True
     else:
         wrong_pred = False

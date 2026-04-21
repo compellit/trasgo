@@ -313,9 +313,6 @@ class Silaba:
             self.palavra = self.palavra.replace("{r}[Cd]{s}[Cd]", "{rs}[Cd]")
 
     def _split_syllables_and_stress_pt(self, aton: list[str]) -> None:
-        # Special rule to diphthongize words with "ial".
-        if search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada):
-            self.palavra = self.palavra.replace("{i}[Nc]{a}[Nc]{l}", "{ia}[Nc]{l}")
 
         if search(r"[kg]\}\[At\]\{u\}\[Nc\]\{(e|i|é|ê|í)", self.palavra):
             self.palavra = sub(r"(k|g)\}\[At\]\{u\}\[Nc\]\{(e|é|ê|i|í)", r"\1w}[At]{\2", self.palavra)
@@ -380,7 +377,7 @@ class Silaba:
             self.palavra = sub(r"\.([^\.]+)$", r'".\1', self.palavra, count=1)
         elif search(r"[^aeo][iu]\[Nc\]\.[aeo]\[Nc\]([ns]+\[Cd])?$", self.palavra):
             self.palavra = sub(r"\.([^\.]+)\.([^\.]+)(i|u)\[Nc\]\.(a|e|o)\[Nc\]([ns]+\[Cd])?$", r'".\1.\2\3[Nc].\4[Nc]\5', self.palavra)
-        elif search(r"[^aeiou][aeoiu]\[Nc\]([ns]+\[Cd\])?$", self.palavra):
+        elif search(r"[iu]?[aeoiu]\[Nc\]([ns]+\[Cd\])?$", self.palavra):
             self.palavra = sub(r"\.([^\.]+)\.([^\.]+)$", r'".\1.\2', self.palavra)
             self.palavra = sub(r"^\.([^\.]+)$", r'".\1', self.palavra)
         else:
@@ -393,13 +390,25 @@ class Silaba:
         self.palavra = self.palavra.replace("á", "a").replace("é", "e").replace("í", "i")
         self.palavra = self.palavra.replace("ï", "i").replace("ó", "o").replace("ú", "u")
 
-        # Words ending in -ción/xión/sión (and with internal "cion"): diphthong.
-        if search(r"[cxs]ións?$", self.entrada) or search(r"[scx]ion", self.entrada):
-            self.palavra = sub(r"\.(s|T)\[At\]i\[Nc\]\"\.o\[Nc\]", r'".\1[At]jo[Nc]', self.palavra)
-            self.palavra = sub(r"\.(s|T)\[At\]i\[Nc\]\.o\[Nc\]\.n\[At\]", r".\1[At]jo[Nc].n[At]", self.palavra)
-        # Pre-stressed "i.o" to "io" (confesional).
-        if search(r"[xcs]io", self.entrada):
-            self.palavra = self.palavra.replace("]i[Nc].o[Nc]\"", "]jo[Nc]\"")
+
+        # High vowel + stressed vowel
+        if search(r"\"(\.)?([^\[]{,2}\[At\])?[iu]([aeoEO])", self.palavra):
+            if not (search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada) or
+                    search(r"[cxs]ións?$", self.entrada) or search(r"[scx]ion", self.entrada) or
+                    search(r"[xcs]io", self.entrada)):
+                self.palavra = sub(r"(\")(\.)?([^\[]{,2}\[At\])?([iu])([aeoEO])",r"\2\3\4[Nc]\1.\5", self.palavra)
+
+        # # Special rule to diphthongize words with "ial".
+        # if search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada):
+        #     self.palavra = self.palavra.replace("{i}[Nc]{a}[Nc]{l}", "{ia}[Nc]{l}")
+
+        # # Words ending in -ción/xión/sión (and with internal "cion"): diphthong.
+        # if search(r"[cxs]ións?$", self.entrada) or search(r"[scx]ion", self.entrada):
+        #     self.palavra = sub(r"\.(s|T)\[At\]i\[Nc\]\"\.o\[Nc\]", r'".\1[At]jo[Nc]', self.palavra)
+        #     self.palavra = sub(r"\.(s|T)\[At\]i\[Nc\]\.o\[Nc\]\.n\[At\]", r".\1[At]jo[Nc].n[At]", self.palavra)
+        # # Pre-stressed "i.o" to "io" (confesional).
+        # if search(r"[xcs]io", self.entrada):
+        #     self.palavra = self.palavra.replace("]i[Nc].o[Nc]\"", "]jo[Nc]\"")
 
     def _finish_syllable_split(self) -> None:
         # Inserts a vowel or deletes the first onset (psicólogo).
@@ -488,8 +497,8 @@ class Silaba:
 
     def apply_shared_postlexical_rules(self) -> None:
         # Oral diphthongs.
-        self.palavra = sub(r"([aeouOE])[ij]", r"\1j", self.palavra)
-        self.palavra = sub(r"([aeoE])u", r"\1w", self.palavra)
+        self.palavra = sub(r"([aeouEO])[ij]|[ij]([aeouE])", r"\1j\2", self.palavra)
+        self.palavra = sub(r"([aeoE])u|u([aeouEO])", r"\1w\2", self.palavra)
         self.palavra = self.palavra.replace("]ia[", "]ja[")
         self.palavra = sub(r"\]a\[Nc\]\.o\[Nc\](s\[Cd\])?", r"]aw[Nc]\1", self.palavra)
 
@@ -793,7 +802,8 @@ class Silaba:
         return self._finalize_output()
 
     def run_ilg(self, word: str) -> str:
-        dip = ["ai", "ái", "au", "áu", "ei", "éi", "eu", "éu", "ou", "óu", "oi", "ói", "ui"]
+        dip = ["ai", "ái", "au", "áu", "ei", "éi", "eu", "éu", "ou", "óu", "oi", "ói", "ui",
+               "ia", "iá", "ua", "uá", "ie", "ié", "ue", "ué", "uo", "uó", "io", "ió", "iu"]
         nc = ["a", "e", "i", "o", "u", "á", "é", "í", "ó", "ú", "w", "ï", "j"]
         dig = ["tS"]
         atc = [r"[kpbvfgtd](r|l)"]

@@ -426,7 +426,10 @@ class Silaba:
     def _finish_syllable_split(self) -> None:
         # Inserts a vowel or deletes the first onset (psicólogo).
         if search(r"^([^\{])\{([^\}]*)\}\[At\]", self.palavra):
-            self.palavra = sub(r"^([^\{])\{([^\}]*)\}\[At\]", r"{\2}[At]", self.palavra)
+            if self.entrada[0] == "x":
+                self.palavra = sub(r"^k\{s", "{ks", self.palavra)
+            else:
+                self.palavra = sub(r"^([^\{])\{([^\}]*)\}\[At\]", r"{\2}[At]", self.palavra)
         # "Strange codas": foreign words ending in onsets: onset > coda.
         if search(r"\{tS\}\[At\]$", self.palavra):
             self.palavra = self.palavra.replace("{tS}[At]", "{tS}[Cd]")
@@ -549,7 +552,7 @@ class Silaba:
             self.palavra = sub(r's\[Cd\](")?\.([bdgfjmnSsJlLT])', r'r[Cd]\1.\2', self.palavra)
             self.palavra = sub(r's\[Cd\](")?\.R', r"\1.R", self.palavra)
         else:
-            self.palavra = sub(r's\[Cd\](")?\.([bdg])', r'z[Cd]\1.\2', self.palavra)
+    #        self.palavra = sub(r's\[Cd\](")?\.([bdg])', r'z[Cd]\1.\2', self.palavra)
             if not self.args.t:
                 self.palavra = sub(r'\]s\[Cd\](")?\.s\[At\]', r"]\1.s[At]", self.palavra)
 
@@ -572,7 +575,7 @@ class Silaba:
         # Implosive nasal: velar.
         # self.palavra = sub(r"n(.)?\[Cd\]", r"N\1[Cd]", self.palavra)
         self.palavra = sub(r"[nm](\[Cd\]$)", r"N\1", self.palavra)
-        self.palavra = sub(r"[nm](\[Cd\]\"?\.[gknm])", r"N\1", self.palavra)
+        self.palavra = sub(r"[nm](\[Cd\])?(\"?)(\.)?([gknm])", r"N\1\2\3\4", self.palavra)
         self.palavra = sub(r"[nm](\[Cd\]\"?\.[pb])", r"m\1", self.palavra)
         self.palavra = sub(r"[nm](\[Cd\]\"?\.f)", r"F\1", self.palavra)
         # self.palavra = sub(r"[nm](\[Cd\]\"?\.t?S)", r"J\1", self.palavra)
@@ -586,7 +589,7 @@ class Silaba:
         # (4) in inho/a(s)
         self.palavra = sub(r"(J|m|n)\[At\](a|e|i|o|u|A|E|I|O|U)\[Nc\]N", r"\1[At]\2~[Nc]N", self.palavra)
         self.palavra = sub(r"(J|m|n)\[At\](a|e|i|o|u|A|E|I|O|U)N\[Nc\]", r"\1[At]\2~N[Nc]", self.palavra)
-        self.palavra = sub(r"(a|e|i|o|u|A|E|I|O|U)N\\\[Nc\]", r"\1~N\[Nc]", self.palavra)
+        self.palavra = sub(r"(a|e|i|o|u|A|E|I|O|U)N\[Nc\]", r"\1~N[Nc]", self.palavra)
         self.palavra = sub(r'^(")?\.(a|e|i|o|u|A|E|I|O|U)\[Nc\]N', r"\1.\2~[Nc]N", self.palavra)
 
         if search(r"iñ[oa]s?$", self.entrada):

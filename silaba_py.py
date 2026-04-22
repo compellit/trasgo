@@ -408,6 +408,9 @@ class Silaba:
                 break
         if no_suf.endswith("ual"):
              self.palavra = sub(r"ua\[Nc\](l|\.l)",r"u[Nc].a[Nc]\1", self.palavra)
+        
+        # falling diphthong to rising
+        self.palavra = sub(r"(\.?)([^\[]{,2}\[At\])?([aeouEO])i\[Nc\](\")\.([aeouEO])", r"\1\2\3[Nc]\4.j\5",self.palavra)
         # # Special rule to diphthongize words with "ial".
         # if search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada):
         #     self.palavra = self.palavra.replace("{i}[Nc]{a}[Nc]{l}", "{ia}[Nc]{l}")

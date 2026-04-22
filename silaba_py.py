@@ -41,6 +41,7 @@ class SharedLists:
     oo_caps_pre: list[str]
     vbos_alt: list[str]
     nps_eo: list[str]
+    suf: list[str]
 
 
 @dataclass
@@ -78,6 +79,7 @@ def load_shared_lists() -> SharedLists:
         oo_caps_pre=load_list(LISTS_DIR / "OO-pretonico.txt"),
         vbos_alt=load_list(LISTS_DIR / "lista-vbo-EO-ton.txt"),
         nps_eo=load_list(LISTS_DIR / "lista-np-EO.txt"),
+        suf=load_list(LISTS_DIR / "sufixos.txt"),
     )
 
 
@@ -398,6 +400,14 @@ class Silaba:
                     search(r"[xcs]io", self.entrada)):
                 self.palavra = sub(r"(\")(\.)?([^\[]{,2}\[At\])?([iu])([aeoEO])",r"\2\3\4[Nc]\1.\5", self.palavra)
 
+        # u.al (+suffix)
+        no_suf = self.entrada
+        for suf in sorted(self.shared.suf, key=len, reverse=True):
+            if self.entrada.endswith(suf):
+                no_suf = self.entrada[:-len(suf)]
+                break
+        if no_suf.endswith("ual"):
+             self.palavra = sub(r"ua\[Nc\](l|\.l)",r"u[Nc].a[Nc]\1", self.palavra)
         # # Special rule to diphthongize words with "ial".
         # if search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada):
         #     self.palavra = self.palavra.replace("{i}[Nc]{a}[Nc]{l}", "{ia}[Nc]{l}")

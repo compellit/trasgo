@@ -561,6 +561,7 @@ class Silaba:
         self.palavra = sub(r"[nm](\[Cd\]$)", r"N\1", self.palavra)
         self.palavra = sub(r"[nm](\[Cd\]\"?\.[gksnm])", r"N\1", self.palavra)
         self.palavra = sub(r"[nm](\[Cd\]\"?\.[pb])", r"m\1", self.palavra)
+        self.palavra = sub(r"[nm](\[Cd\]\"?\.f)", r"F\1", self.palavra)
         self.palavra = sub(r"[nm](\[Cd\]\"?\.t?S)", r"J\1", self.palavra)
         
         

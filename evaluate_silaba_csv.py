@@ -128,7 +128,7 @@ def ipa_to_silaba_sampa(text: str) -> str:
         ch for ch in unicodedata.normalize("NFD", value) if unicodedata.category(ch) != "Mn"
     )
 
-    value = value.replace("̃", "~")
+    value = value.replace("̃", "")
     value = value.replace("‿", "").replace(" ", "")
     value = value.replace("·", ".")
     return value
@@ -144,6 +144,7 @@ def collapse_open_close_vowels(text: str) -> str:
 
 def normalize_for_comparison(text: str, mode: str, *, ignore_open_close: bool = False) -> str:
     value = text.strip()
+    value = value.replace("~", "")
     if ignore_open_close:
         value = collapse_open_close_vowels(value)
     if mode == "segmental":

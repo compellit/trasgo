@@ -400,6 +400,8 @@ class Silaba:
                     search(r"[xcs]io", self.entrada) or search(r"iar$", self.entrada)):
                 self.palavra = sub(r"(\")(\.)?([^\[]{,2}\[At\])?([iu])([aeoEO])",r"\2\3\4[Nc]\1.\5", self.palavra)
 
+        # bio- as hiatus
+        self.palavra = sub(r"(\")?(\.b\[At\]i)(o\[Nc\][^$])", r"\2[Nc].\1\3", self.palavra)
         # u.al (+suffix)
         no_suf = self.entrada
         for suf in sorted(self.shared.suf, key=len, reverse=True):
@@ -409,8 +411,12 @@ class Silaba:
         if no_suf.endswith("ual"):
              self.palavra = sub(r"ua\[Nc\](l|\.l)",r"u[Nc].a[Nc]\1", self.palavra)
         
-        # falling diphthong to rising
+        # Falling diphthong to rising
         self.palavra = sub(r"(\.?)([^\[]{,2}\[At\])?([aeouEO])i\[Nc\](\")\.([aeouEO])", r"\1\2\3[Nc]\4.j\5",self.palavra)
+        
+        # Break diphthongs for suffixed words
+
+
         # # Special rule to diphthongize words with "ial".
         # if search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada):
         #     self.palavra = self.palavra.replace("{i}[Nc]{a}[Nc]{l}", "{ia}[Nc]{l}")

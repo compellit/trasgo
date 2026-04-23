@@ -400,8 +400,10 @@ class Silaba:
                     search(r"[xcs]io", self.entrada) or search(r"iar$", self.entrada)):
                 self.palavra = sub(r"(\")(\.)?([^\[]{,2}\[At\])?([iu])([aeoEO])",r"\2\3\4[Nc]\1.\5", self.palavra)
 
-        # bio- as hiatus
+        # bio- and diali- as hiatus
         self.palavra = sub(r"(\")?(\.b\[At\]i)(o\[Nc\][^$])", r"\2[Nc].\1\3", self.palavra)
+        self.palavra = sub(r"(\")?(\.d\[At\]i)(a\[Nc\]\.l\[At\]i\[Nc\])", r"\2[Nc].\1\3", self.palavra)
+        
         # u.al (+suffix)
         no_suf = self.entrada
         for suf in sorted(self.shared.suf, key=len, reverse=True):

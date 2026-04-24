@@ -398,7 +398,7 @@ class Silaba:
             if not (search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada) or
                     search(r"ións?$", self.entrada) or search(r"[scx]ion", self.entrada) or
                     search(r"[xcs]io", self.entrada) or search(r"iar$", self.entrada)):
-                self.palavra = sub(r"(\")(\.)?([^\[]{,2}\[At\])?([iu])([aeoEO])",r"\2\3\4[Nc]\1.\5", self.palavra)
+                self.palavra = sub(r"(\")(\.)?([^\[]{,2}\[At\])([iu])([aeoEO])",r"\2\3\4[Nc]\1.\5", self.palavra)
 
         # bio- and diali- as hiatus
         self.palavra = sub(r"(\")?(\.b\[At\]i)(o\[Nc\][^$])", r"\2[Nc].\1\3", self.palavra)
@@ -414,7 +414,7 @@ class Silaba:
              self.palavra = sub(r"ua\[Nc\](l|\.l)",r"u[Nc].a[Nc]\1", self.palavra)
         
         # Falling diphthong to rising
-        self.palavra = sub(r"(\.?)([^\[]{,2}\[At\])?([aeouEO])i\[Nc\](\")\.([aeouEO])", r"\1\2\3[Nc]\4.j\5",self.palavra)
+#        self.palavra = sub(r"(\.?)([^\[]{,2}\[At\])?([aeouEO])i\[Nc\](\")\.([aeouEO])", r"\1\2\3[Nc]\4.j\5",self.palavra)
         
         # Break diphthongs for suffixed words
 
@@ -521,7 +521,8 @@ class Silaba:
 
     def apply_shared_postlexical_rules(self) -> None:
         # Oral diphthongs.
-        self.palavra = sub(r"([aeouEO])[ij]|[ij]([aeouE])", r"\1j\2", self.palavra)
+        self.palavra = sub(r"([aeouEO])[ij]|[ij]([aeouEO])", r"\1j\2", self.palavra)
+        self.palavra = self.palavra.replace("jO", "jo")
         self.palavra = sub(r"([aeoE])u|u([aeouEO])", r"\1w\2", self.palavra)
         self.palavra = self.palavra.replace("]ia[", "]ja[")
         self.palavra = sub(r"\]a\[Nc\]\.o\[Nc\](s\[Cd\])?", r"]aw[Nc]\1", self.palavra)
@@ -827,8 +828,8 @@ class Silaba:
         return self._finalize_output()
 
     def run_ilg(self, word: str) -> str:
-        dip = ["ai", "ái", "au", "áu", "ei", "éi", "eu", "éu", "ou", "óu", "oi", "ói", "ui",
-               "ia", "iá", "ua", "uá", "ie", "ié", "ue", "ué", "uo", "uó", "io", "ió", "iu"]
+        dip = ["ia", "iá", "ua", "uá", "ie", "ié", "ue", "ué", "uo", "uó", "io", "ió", "iu",
+               "ai", "ái", "au", "áu", "ei", "éi", "eu", "éu", "ou", "óu", "oi", "ói", "ui"]
         nc = ["a", "e", "i", "o", "u", "á", "é", "í", "ó", "ú", "w", "ï", "j"]
         dig = ["tS"]
         atc = [r"[kpbvfgtd](r|l)"]

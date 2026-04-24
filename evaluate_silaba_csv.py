@@ -323,6 +323,8 @@ def main() -> int:
         )
 
         is_exact = pred_norm == gold_norm
+        if not is_exact:
+            print(f"Error {word}:\n pred:{pred_norm}\n gold:{gold_norm}")
         if pred_sampa_raw == "erro":
             silaba_errors += 1
 

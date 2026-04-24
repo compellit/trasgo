@@ -402,12 +402,12 @@ class Silaba:
 
 
         # High vowel + stressed vowel
-        if search(r"\"(\.)?([^\[]{,2}\[At\])?[iu]([aeoEO])", self.palavra):
-            if not (search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada) or
-                    search(r"ións?$", self.entrada) or search(r"[scx]ion", self.entrada) or
-                    search(r"[xcs]io", self.entrada) or search(r"iar$", self.entrada)):
-                self.palavra = sub(r"(\")(\.)?([^\[]{,2}\[At\])([iu])([aeoEO])",r"\2\3\4[Nc]\1.\5", self.palavra)
-                self.palavra = sub(r"(?<!\[Nc\])(\")(\.)?([iu])([aeoEO])",r"\2\3[Nc]\1.\4", self.palavra)
+        # if search(r"\"(\.)?([^\[]{,2}\[At\])?[iu]([aeoEO])", self.palavra):
+        #     if not (search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada) or
+        #             search(r"ións?$", self.entrada) or search(r"[scx]ion", self.entrada) or
+        #             search(r"[xcs]io", self.entrada) or search(r"iar$", self.entrada)):
+        #         self.palavra = sub(r"(\")(\.)?([^\[]{,2}\[At\])([iu])([aeoEO])",r"\2\3\4[Nc]\1.\5", self.palavra)
+        #         self.palavra = sub(r"(?<!\[Nc\])(\")(\.)?([iu])([aeoEO])",r"\2\3[Nc]\1.\4", self.palavra)
 
         # bio- and diali- as hiatus
         self.palavra = sub(r"(\")?(\.b\[At\]i)(o\[Nc\][^$])", r"\2[Nc].\1\3", self.palavra)

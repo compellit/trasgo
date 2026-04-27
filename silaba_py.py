@@ -27,6 +27,14 @@ def sub(pattern: str, repl: str, text: str, count: int = 0) -> str:
     return re.sub(pattern, repl, text, count=count)
 
 
+def sub_all(pattern: str, repl, text: str) -> str:
+    while True:
+        text_next, count = re.subn(pattern, repl, text)
+        if count == 0 or text_next == text:
+            return text
+        text = text_next
+
+
 @dataclass
 class SharedLists:
     lista_x: list[str]
@@ -252,22 +260,23 @@ class Silaba:
         # Three vowels in a row.
         for t in trip:
             if search(r"gi", self.palavra):
-                self.palavra = sub(rf"(^|[^\]\{{gk])({re.escape(t)})", rf"\1{{\2}}[Nc]", self.palavra)
+                pat = rf"(^|[^\]\{{gk])({re.escape(t)})"
             else:
-                self.palavra = sub(rf"(^|[^\]\{{])({re.escape(t)})", rf"\1{{\2}}[Nc]", self.palavra)
+                pat = rf"(^|[^\]\{{])({re.escape(t)})"
+            self.palavra = sub_all(pat, rf"\1{{\2}}[Nc]", self.palavra)
 
         # Diphthongs are marked as nucleus.
         for d in dip:
             if search(r"gi", self.palavra):
-                self.palavra = sub(rf"(^|[^\]\{{gk])({re.escape(d)})([^\]\}}]|$)", rf"\1{{\2}}[Nc]\3", self.palavra)
+                pat = rf"(^|[^\]\{{gk])({re.escape(d)})([^\]\}}]|$)"
             else:
-                self.palavra = sub(rf"(^|[^\]\{{])({re.escape(d)})([^\]\}}]|$)", rf"\1{{\2}}[Nc]\3", self.palavra)
+                pat = rf"(^|[^\]\{{])({re.escape(d)})([^\]\}}]|$)"
+            self.palavra = sub_all(pat, rf"\1{{\2}}[Nc]\3", self.palavra)
 
         # Vowels are marked as nucleus.
         for v in nc:
             pat = rf"(^|^[^\{{]|[^\{{][^\{{}}])({re.escape(v)})([^\}}][^\}}]|[^\}}]$|$)"
-            for v in range(self.palavra.count(v)):
-                self.palavra = sub(pat, r"\1{\2}[Nc]\3", self.palavra)
+            self.palavra = sub_all(pat, r"\1{\2}[Nc]\3", self.palavra)
 
         # If word is BR/BL, split into coda/onset (no complex onset).
         for br in br_words:
@@ -280,8 +289,7 @@ class Silaba:
         # Digraphs are marked as onsets.
         for d in dig:
             pat = rf"([^\{{]|^)({re.escape(d)})([^\}}]|$)"
-            self.palavra = sub(pat, r"\1{\2}[At]\3", self.palavra)
-            self.palavra = sub(pat, r"\1{\2}[At]\3", self.palavra)
+            self.palavra = sub_all(pat, r"\1{\2}[At]\3", self.palavra)
 
         # Complex onsets are marked.
         for onset in atc:
@@ -301,7 +309,7 @@ class Silaba:
 
         # Complex (and "strange") codas are marked.
         for c in cdc:
-            self.palavra = sub(
+            self.palavra = sub_all(
                 rf"([^\{{\[])(?:{re.escape(c)})([^\}}\]]|$)",
                 lambda m, c=c: f"{m.group(1)}{{{c}}}[Cd]{m.group(2)}",
                 self.palavra,
@@ -309,7 +317,7 @@ class Silaba:
 
         # Simple codas are marked.
         for c in cd:
-            self.palavra = sub(
+            self.palavra = sub_all(
                 rf"([^\{{\[])(?:{re.escape(c)})([^\}}\]]|$)",
                 lambda m, c=c: f"{m.group(1)}{{{c}}}[Cd]{m.group(2)}",
                 self.palavra,

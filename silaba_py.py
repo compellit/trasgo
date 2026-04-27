@@ -389,13 +389,17 @@ class Silaba:
         self._finish_syllable_split()
 
         # Stress assignment.
+        # explicit accent
         if search(r"á|é|í|ó|ú", self.palavra):
             self.palavra = sub(r"\.([^\.]+)?([áéíóú])", r'".\1\2', self.palavra, count=1)
+        # ending in n/s
         elif not search(r"(n|s)\[Cd\]$", self.palavra) and search(r"\[Cd\]$", self.palavra):
             self.palavra = sub(r"\.([^\.]+)$", r'".\1', self.palavra, count=1)
+        # ending in close vowel + open vowel hiatus
         elif search(r"[^aeo][iu]\[Nc\]\.[aeo]\[Nc\]([ns]+\[Cd])?$", self.palavra):
             self.palavra = sub(r"\.([^\.]+)\.([^\.]+)(i|u)\[Nc\]\.(a|e|o)\[Nc\]([ns]+\[Cd])?$", r'".\1.\2\3[Nc].\4[Nc]\5', self.palavra)
-        elif search(r"[iu]?[aeoiu]\[Nc\]([ns]+\[Cd\])?$", self.palavra):
+        # ending in rising diphthong, vowel or n/s
+        elif search(r"([^aeiou][aeiou]|[iu][aeo])\[Nc\]([ns]+\[Cd\])?$", self.palavra):
             self.palavra = sub(r"\.([^\.]+)\.([^\.]+)$", r'".\1.\2', self.palavra)
             self.palavra = sub(r"^\.([^\.]+)$", r'".\1', self.palavra)
         else:

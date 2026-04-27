@@ -458,13 +458,14 @@ class Silaba:
             if self.entrada[0] == "x":
                 self.palavra = sub(r"^k\{s", "{ks", self.palavra)
             else:
-                self.palavra = sub(r"^([^\{])\{([^\}]*)\}\[At\]", r"{\2}[At]", self.palavra)
+                self.palavra = sub(r"^([^\{])\{([^\}]*)\}\[At\]", r"{\1\2}[At]", self.palavra)
         # "Strange codas": foreign words ending in onsets: onset > coda.
         if search(r"\{tS\}\[At\]$", self.palavra):
             self.palavra = self.palavra.replace("{tS}[At]", "{tS}[Cd]")
 
+        # Two codas: second as attack
         if search(r"Cd\]\{..?\}\[Cd\]", self.palavra):
-            self.palavra = sub(r"Cd\]\{(..?)\}\[Cd\]\{(.)\}\[At\]", r"Cd].{\1\2}[At]", self.palavra)
+            self.palavra = sub(r"Cd\]\{(..?)\}\[Cd\]\{(.)\}\[At\]", r"Cd]{\1\2}[At]", self.palavra)
         
         # If there are any elements outside the constituents, the word was not well parsed.
         if (

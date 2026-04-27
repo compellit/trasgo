@@ -546,7 +546,8 @@ class Silaba:
 
     def apply_shared_postlexical_rules(self) -> None:
         # Oral diphthongs.
-        self.palavra = sub(r"([aeouEO])[ij]|[ij]([aeouEO])", r"\1j\2", self.palavra)
+        self.palavra = sub(r"([aeouEO])[ij]", r"\1j", self.palavra)
+        self.palavra = sub(r"[ij]([aeouEO])", r"j\1", self.palavra)
         self.palavra = self.palavra.replace("jO", "jo")
         self.palavra = sub(r"([aeoE])u|u([aeouEO])", r"\1w\2", self.palavra)
         self.palavra = self.palavra.replace("]ia[", "]ja[")

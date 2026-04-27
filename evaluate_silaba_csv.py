@@ -323,7 +323,10 @@ def main() -> int:
             ignore_open_close=args.ignore_open_close_vowels,
         )
 
-        is_exact = pred_norm == gold_norm
+        if "\"" not in gold_norm:
+            is_exact = pred_norm.replace('"', "") == gold_norm
+        else:
+            is_exact = pred_norm == gold_norm
         if not is_exact:
             print(f"Error {word}:\n pred:{pred_norm}\n gold:{gold_norm}")
         if pred_sampa_raw == "erro":

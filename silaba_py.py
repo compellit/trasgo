@@ -574,7 +574,7 @@ class Silaba:
             if not self.args.t:
                 self.palavra = sub(r'\]s\[Cd\](")?\.s\[At\]', r"]\1.s[At]", self.palavra)
 
-        self.palavra = self.palavra.replace("bs[Cd]", "Bs[Cd]").replace("ds[Cd]", "Ds[Cd]")
+#        self.palavra = self.palavra.replace("bs[Cd]", "Bs[Cd]").replace("ds[Cd]", "Ds[Cd]")
         self.palavra = sub(r'(Nc\]|[srl]\[Cd\])(")?\.g', r"\1\2.G", self.palavra)
         self.palavra = sub(r'(Nc\]|[sr]\[Cd\])(")?\.d', r"\1\2.D", self.palavra)
         self.palavra = sub(r'(Nc\]|[srl]\[Cd\])(")?\.b', r"\1\2.B", self.palavra)

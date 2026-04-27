@@ -865,7 +865,7 @@ class Silaba:
 
         self.entrada = word.lower()
         self.input_word = self.entrada
-        self.palavra = self.entrada
+        self.palavra = self.entrada.replace("-", "")
 
         if search(r"(eiro|eira|iño|iña|ciño|ciña|mente|ito|ita)", self.entrada):
             self.entrada2 = self.entrada

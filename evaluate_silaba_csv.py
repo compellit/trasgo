@@ -119,6 +119,7 @@ def ipa_to_silaba_sampa(text: str) -> str:
         ("ˌ", '"'),
         ("ː", ""),
         ("ˑ", ""),
+        ("-", ""),
     ]
     for src, dst in replacements:
         value = value.replace(src, dst)

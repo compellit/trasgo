@@ -463,7 +463,11 @@ class Silaba:
         if search(r"\{tS\}\[At\]$", self.palavra):
             self.palavra = self.palavra.replace("{tS}[At]", "{tS}[Cd]")
 
-        # Two codas: second as attack
+        # Two codas at the end: complex coda
+        if search(r"Cd\]\{..?\}\[Cd\]$", self.palavra):
+            self.palavra = sub(r"\}\[Cd\]\{(..?)\}\[Cd\]$", r"\1}[Cd]", self.palavra)
+
+        # Two codas before syllable: second as attack
         if search(r"Cd\]\{..?\}\[Cd\]", self.palavra):
             self.palavra = sub(r"Cd\]\{(..?)\}\[Cd\]\{(.)\}\[At\]", r"Cd]{\1\2}[At]", self.palavra)
         
@@ -609,7 +613,7 @@ class Silaba:
 
         # Implosive nasal: velar.
         # self.palavra = sub(r"n(.)?\[Cd\]", r"N\1[Cd]", self.palavra)
-        self.palavra = sub(r"[nm](\[Cd\]$)", r"N\1", self.palavra)
+        self.palavra = sub(r"\][nm](\[Cd\]$)", r"]N\1", self.palavra)
         self.palavra = sub(r"[nm](\[Cd\])(\"?)(\.)?([gknm])", r"N\1\2\3\4", self.palavra)
         self.palavra = sub(r"[nm]([gk]\[Cd\])", r"N\1", self.palavra)
         self.palavra = sub(r"[nm](\[Cd\]\"?\.[pb])", r"m\1", self.palavra)

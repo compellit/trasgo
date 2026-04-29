@@ -444,10 +444,10 @@ class Silaba:
         # Break diphthongs for suffixed words
 
         # Unconventional diphthongs when poli prefix.
-        poli_pre_vowel = [pre for pre in self.shared.poli_pre if search(r"[eo]$", pre)] 
+        poli_pre_vowel = [pre for pre in self.shared.poli_pre if search(r"[i][eo]$", pre)] 
         for pref in sorted(poli_pre_vowel, key=len, reverse=True):
             if len(self.entrada) > len(pref) and self.entrada.startswith(pref):
-                if not pref[-1] == self.entrada[len(pref)] and self.entrada[len(pref)] in "aiouO":
+                if not pref[-1] == self.entrada[len(pref)] and self.entrada[len(pref)] in "aeou" or pref[-1] == "o" and self.entrada[len(pref)] == "i":
                     n = pref.count(pref[-1])
                     for i, c in enumerate(self.palavra):
                         if c == pref[-1]:
@@ -457,6 +457,10 @@ class Silaba:
                                 break
 
                 break
+
+        # -ácea(s), -áceo(s)
+        if search(r"áce[oa]s?$", self.entrada):
+            self.palavra = sub(r"e\[Nc\]\.([oa]\[Nc\])(s\[Cd\])?$", r"e_^\1\2", self.palavra)
 
         # # Special rule to diphthongize words with "ial".
         # if search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada):

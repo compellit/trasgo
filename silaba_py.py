@@ -50,6 +50,8 @@ class SharedLists:
     vbos_alt: list[str]
     nps_eo: list[str]
     suf: list[str]
+    poli_pre: list[str]
+    mono_pre: list[str]
 
 
 @dataclass
@@ -88,6 +90,8 @@ def load_shared_lists() -> SharedLists:
         vbos_alt=load_list(LISTS_DIR / "lista-vbo-EO-ton.txt"),
         nps_eo=load_list(LISTS_DIR / "lista-np-EO.txt"),
         suf=load_list(LISTS_DIR / "sufixos.txt"),
+        poli_pre=load_list(LISTS_DIR / "poli_pre.txt"),
+        mono_pre=load_list(LISTS_DIR / "mono_pre.txt"),
     )
 
 
@@ -426,19 +430,33 @@ class Silaba:
         self.palavra = sub(r"(\")?(\.d\[At\]i)(a\[Nc\]\.l\[At\]i\[Nc\])", r"\2[Nc].\1\3", self.palavra)
         
         # u.al (+suffix)
-        no_suf = self.entrada
-        for suf in sorted(self.shared.suf, key=len, reverse=True):
-            if self.entrada.endswith(suf):
-                no_suf = self.entrada[:-len(suf)]
-                break
-        if no_suf.endswith("ual"):
-             self.palavra = sub(r"ua\[Nc\](l|\.l)",r"u[Nc].a[Nc]\1", self.palavra)
+        # no_suf = self.entrada
+        # for suf in sorted(self.shared.suf, key=len, reverse=True):
+        #     if self.entrada.endswith(suf):
+        #         no_suf = self.entrada[:-len(suf)]
+        #         break
+        # if no_suf.endswith("ual"):
+        #      self.palavra = sub(r"ua\[Nc\](l|\.l)",r"u[Nc].a[Nc]\1", self.palavra)
         
         # Falling diphthong to rising: Vj.V -> V.jV
         self.palavra = sub(r"(\.?)([^\[]{,2}\[At\])?([aeouEO])i\[Nc\](\")\.([aeouEO])", r"\1\2\3[Nc]\4.j\5",self.palavra)
         
         # Break diphthongs for suffixed words
 
+        # Unconventional diphthongs when poli prefix.
+        poli_pre_vowel = [pre for pre in self.shared.poli_pre if search(r"[eo]$", pre)] 
+        for pref in sorted(poli_pre_vowel, key=len, reverse=True):
+            if len(self.entrada) > len(pref) and self.entrada.startswith(pref):
+                if self.entrada[len(pref)] in "aiouO":
+                    n = pref.count(pref[-1])
+                    for i, c in enumerate(self.palavra):
+                        if c == pref[-1]:
+                            n -= 1
+                            if n == 0:
+                                self.palavra = self.palavra[:i+1] + "_^" + self.palavra[i+1:]
+                                break
+
+                break
 
         # # Special rule to diphthongize words with "ial".
         # if search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada):
@@ -555,7 +573,7 @@ class Silaba:
         self.palavra = self.palavra.replace("jO", "jo")
         self.palavra = sub(r"([aeoE])u|u([aeouEO])", r"\1w\2", self.palavra)
         self.palavra = self.palavra.replace("]ia[", "]ja[")
-        self.palavra = sub(r"\]a\[Nc\]\.o\[Nc\](s\[Cd\])?", r"]aw[Nc]\1", self.palavra)
+        self.palavra = sub(r"\]a\[Nc\]\.o\[Nc\](s\[Cd\])?", r"]ao_^[Nc]\1", self.palavra)
 
         # Complex codas.
         if not self.args.c:

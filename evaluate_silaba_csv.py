@@ -14,6 +14,7 @@ from silaba_py import Silaba, SilabaError
 HERE = Path(__file__).resolve().parent
 RESULTS_DIR = HERE / "results"
 SUMMARY_PATH = RESULTS_DIR / "summary.tsv"
+ASYLLABIC_DIACRITIC = "\u032f"  # IPA non-syllabic mark, e.g. o̯.
 
 
 def guess_delimiter(path: Path) -> str:
@@ -124,11 +125,15 @@ def ipa_to_silaba_sampa(text: str) -> str:
     for src, dst in replacements:
         value = value.replace(src, dst)
 
-    # Remove combining IPA diacritics such as a̝, o̞, nasalization overlays, etc.
+    # Remove combining IPA diacritics such as a̝, o̞, nasalization overlays, etc.,
+    # while preserving asyllabic marks that carry segmental information.
     value = "".join(
-        ch for ch in unicodedata.normalize("NFD", value) if unicodedata.category(ch) != "Mn"
+        ch
+        for ch in unicodedata.normalize("NFD", value)
+        if unicodedata.category(ch) != "Mn" or ch == ASYLLABIC_DIACRITIC
     )
 
+    value = value.replace(ASYLLABIC_DIACRITIC, "_^")
     value = value.replace("̃", "")
     value = value.replace("‿", "").replace(" ", "")
     value = value.replace("·", ".")

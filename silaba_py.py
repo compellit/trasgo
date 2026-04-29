@@ -434,8 +434,8 @@ class Silaba:
         if no_suf.endswith("ual"):
              self.palavra = sub(r"ua\[Nc\](l|\.l)",r"u[Nc].a[Nc]\1", self.palavra)
         
-        # Falling diphthong to rising
-#        self.palavra = sub(r"(\.?)([^\[]{,2}\[At\])?([aeouEO])i\[Nc\](\")\.([aeouEO])", r"\1\2\3[Nc]\4.j\5",self.palavra)
+        # Falling diphthong to rising: Vj.V -> V.jV
+        self.palavra = sub(r"(\.?)([^\[]{,2}\[At\])?([aeouEO])i\[Nc\](\")\.([aeouEO])", r"\1\2\3[Nc]\4.j\5",self.palavra)
         
         # Break diphthongs for suffixed words
 

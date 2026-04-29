@@ -444,7 +444,7 @@ class Silaba:
         # Break diphthongs for suffixed words
 
         # Unconventional diphthongs when poli prefix.
-        poli_pre_vowel = [pre for pre in self.shared.poli_pre if search(r"[i][eo]$", pre)] 
+        poli_pre_vowel = [pre for pre in self.shared.poli_pre if search(r"[^i][eo]$", pre)] 
         for pref in sorted(poli_pre_vowel, key=len, reverse=True):
             if len(self.entrada) > len(pref) and self.entrada.startswith(pref):
                 if not pref[-1] == self.entrada[len(pref)] and self.entrada[len(pref)] in "aeou" or pref[-1] == "o" and self.entrada[len(pref)] == "i":

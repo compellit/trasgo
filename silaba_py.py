@@ -447,7 +447,7 @@ class Silaba:
         poli_pre_vowel = [pre for pre in self.shared.poli_pre if search(r"[eo]$", pre)] 
         for pref in sorted(poli_pre_vowel, key=len, reverse=True):
             if len(self.entrada) > len(pref) and self.entrada.startswith(pref):
-                if self.entrada[len(pref)] in "aiouO":
+                if not pref[-1] == self.entrada[len(pref)] and self.entrada[len(pref)] in "aiouO":
                     n = pref.count(pref[-1])
                     for i, c in enumerate(self.palavra):
                         if c == pref[-1]:

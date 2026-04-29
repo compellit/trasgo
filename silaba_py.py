@@ -860,7 +860,7 @@ class Silaba:
 
     def run_ilg(self, word: str) -> str:
         trip = ["iai", "iái", "uai", "uái", "iei", "iéi", "uei", "uéi", "uoi", "uói", "ioi", "iói", "iui",
-                "uau", "uáu", "ueu", "uéu", "uou", "uóu", "uiu"]
+                "uau", "uáu", "iau", "iáu", "ueu", "uéu", "ieu", "iéu", "uou", "uóu", "iou", "ióu", "uiu"]
         dip = ["ia", "iá", "ie", "ié", "io", "ió", "iu",
                "ai", "ái", "au", "áu", "ei", "éi", "eu", "éu", "ou", "óu", "oi", "ói"]
         nc = ["a", "e", "i", "o", "u", "á", "é", "í", "ó", "ú", "w", "ï", "j"]

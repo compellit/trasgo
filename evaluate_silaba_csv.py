@@ -337,6 +337,26 @@ def main() -> int:
         if pred_sampa_raw == "erro":
             silaba_errors += 1
 
+        # Reasons
+        if is_exact:
+            reason = "exact"
+        elif pred_sampa_raw == "erro":
+            reason = "silaba_erro"
+        elif re.sub(r'(\")?S', r"k\1s", pred_norm) == gold_norm:
+            reason = "ks"
+        elif pred_norm.replace('_^', "") == gold_norm:
+            reason = "assylabic"
+        elif pred_norm.replace("w", "u") == gold_norm:
+            reason = "u hiat"
+        elif pred_norm.replace("j", "i") == gold_norm:
+            reason = "i hiat"
+        elif pred_norm.replace("u", "w") == gold_norm:
+            reason = "w diph"
+        elif pred_norm.replace("j", "i") == gold_norm:
+            reason = "j diph"
+        else:
+            reason = "other"
+
         dist = levenshtein(pred_norm, gold_norm)
         if word not in form_stats:
             form_stats[word] = {
@@ -357,6 +377,7 @@ def main() -> int:
             "silaba_output_preproc": pred_norm,
             "gold_sampa_preproc": gold_norm,
             "correct": str(is_exact),
+            "reason": reason
         }
         output_rows.append(annotated)
 

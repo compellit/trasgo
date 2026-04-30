@@ -578,6 +578,7 @@ class Silaba:
         self.palavra = sub(r"([aeoE])u|u([aeouEO])", r"\1w\2", self.palavra)
         self.palavra = self.palavra.replace("]ia[", "]ja[")
         self.palavra = sub(r"\]a\[Nc\]\.o\[Nc\](s\[Cd\])?", r"]ao_^[Nc]\1", self.palavra)
+        self.palavra = sub(r"(\...?\[At\]._\^)\[Nc\](\")?\.([aeiouEO]\[Nc\])", r"\2\1\3", self.palavra)
 
         # Complex codas.
         if not self.args.c:

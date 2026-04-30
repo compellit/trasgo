@@ -579,6 +579,7 @@ class Silaba:
         self.palavra = self.palavra.replace("]ia[", "]ja[")
         self.palavra = sub(r"\]a\[Nc\]\.o\[Nc\](s\[Cd\])?", r"]ao_^[Nc]\1", self.palavra)
         self.palavra = sub(r"(\...?\[At\]._\^)\[Nc\](\")?\.([aeiouEO]\[Nc\])", r"\2\1\3", self.palavra)
+        self.palavra = sub(r"(\".[^\".]+\.)(..?\[At\])?e\[Nc\]\.([ao]\[Nc\])", r"\1\2e_^\3", self.palavra)
 
         # Complex codas.
         if not self.args.c:
@@ -639,8 +640,8 @@ class Silaba:
         self.palavra = sub(r"\][nm](\[Cd\]$)", r"]N\1", self.palavra)
         self.palavra = sub(r"[nm](\[Cd\])(\"?)(\.)?([gknm])", r"N\1\2\3\4", self.palavra)
         self.palavra = sub(r"[nm]([gk]\[Cd\])", r"N\1", self.palavra)
-        self.palavra = sub(r"[nm](\[Cd\]\"?\.[pb])", r"m\1", self.palavra)
-        self.palavra = sub(r"[nm](\[Cd\]\"?\.f)", r"F\1", self.palavra)
+        self.palavra = sub(r"[nm](\[Cd\]\"?\.)?([pb])", r"m\1\2", self.palavra)
+        self.palavra = sub(r"[nm](\[Cd\]\"?\.)?f", r"F\1f", self.palavra)
         # self.palavra = sub(r"[nm](\[Cd\]\"?\.t?S)", r"J\1", self.palavra)
         
         

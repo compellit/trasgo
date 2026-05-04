@@ -461,6 +461,9 @@ class Silaba:
         # -ácea(s), -áceo(s)
         if search(r"áce[oa]s?$", self.entrada):
             self.palavra = sub(r"e\[Nc\]\.([oa]\[Nc\])(s\[Cd\])?$", r"e_^\1\2", self.palavra)
+        # -eolóxica(s), -eolóxico(s), -eoloxía, -eoloxía
+        if search(r"..+eolóx(ic[oa]|ía)$", self.entrada):
+            self.palavra = sub(r"(e)\[Nc\]\.(o\[Nc\]\"?\.l\[At\])", r"\1_^\2", self.palavra)
 
         # # Special rule to diphthongize words with "ial".
         # if search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada):

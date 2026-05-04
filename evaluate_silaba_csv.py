@@ -345,7 +345,9 @@ def main() -> int:
         elif re.sub(r'(\")?S', r"k\1s", pred_norm) == gold_norm:
             reason = "ks"
         elif pred_norm.replace('_^', "") == gold_norm:
-            reason = "assylabic"
+            reason = "non assylabic"
+        elif pred_norm == gold_norm.replace('_^', ""):
+            reason = "assylabic"            
         elif pred_norm.replace("w", "u") == gold_norm:
             reason = "u hiat"
         elif pred_norm.replace("j", "i") == gold_norm:

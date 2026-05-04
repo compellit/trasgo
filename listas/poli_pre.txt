@@ -98,6 +98,7 @@ mega
 micro
 mili
 mono
+monte
 nano
 narco
 necro
@@ -123,6 +124,7 @@ piro
 pluto
 pluvio
 poli
+porta
 pos
 post
 proto
@@ -155,6 +157,7 @@ turbo
 ultra
 uro
 vice
+vila
 xeno
 xeo
 xiga

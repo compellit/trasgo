@@ -443,8 +443,8 @@ class Silaba:
         
         # Break diphthongs for suffixed words
 
-        # Unconventional diphthongs when poli prefix.
-        poli_pre_vowel = [pre for pre in self.shared.poli_pre if search(r"[^i][eo]$", pre)] 
+        # Unconventional diphthongs when poli prefix. e/o first.
+        poli_pre_vowel = [pre for pre in self.shared.poli_pre if search(r"[^i][eo]$", pre)]
         for pref in sorted(poli_pre_vowel, key=len, reverse=True):
             if len(self.entrada) > len(pref) and self.entrada.startswith(pref):
                 if not pref[-1] == self.entrada[len(pref)] and self.entrada[len(pref)] in "aeou" or pref[-1] == "o" and self.entrada[len(pref)] == "i":
@@ -458,13 +458,32 @@ class Silaba:
 
                 break
 
+        # Unconventional diphthongs when poli prefix. e/o second.
+        # poli_pre_vowel = [pre for pre in self.shared.poli_pre if search(r"[^i][a]$", pre)] 
+        # for pref in sorted(poli_pre_vowel, key=len, reverse=True):
+        #     if len(self.entrada) > len(pref) and self.entrada.startswith(pref):
+        #         if self.entrada[len(pref)] in "eoEO":
+        #             n = self.entrada.count(self.entrada[len(pref)])
+        #             for i, c in enumerate(self.palavra):
+        #                 if c == self.entrada[len(pref)]:
+        #                     n -= 1
+        #                     if n == 0:
+        #                         self.palavra = self.palavra[:i+1] + "_^" + self.palavra[i+1:]
+        #                         break
+
+        #         break
+
         # -ácea(s), -áceo(s)
         if search(r"áce[oa]s?$", self.entrada):
             self.palavra = sub(r"e\[Nc\]\.([oa]\[Nc\])(s\[Cd\])?$", r"e_^\1\2", self.palavra)
-        # -eolóxica(s), -eolóxico(s), -eoloxía, -eoloxía
-        if (search(r"..+e[ao]l[óo]x(ic[oa]|ía|ista)$", self.entrada) or
-            (self.entrada2 and search(r"..+e[ao]l[óo]x(ic[oa]|ía|ista)$", self.entrada2))):
-            self.palavra = sub(r"(e)\[Nc\]\.([ao]\[Nc\]\"?\.l\[At\])", r"\1_^\2", self.palavra)
+        # -eolóxico/a(s), -eoloxía, -eoloxista(s), -eográfico/a(s), -eografía, -eografista(s)
+        if (search(r"..+e[ao](l[óo]x|gr[áa]f)(ic[oa]|ía|ista)$", self.entrada) or
+            (self.entrada2 and search(r"..+e[ao](l[óo]x|gr[áa]f)(ic[oa]|ía|ista)$", self.entrada2))):
+            self.palavra = sub(r"(e)\[Nc\]\.([ao]\[Nc\]\"?\.(l|gr)\[At\])", r"\1_^\2", self.palavra)
+        # -video-
+        self.palavra = sub(r"(v\[At\]i\[Nc\]\.d\[At\]e)\[Nc\]\.(o\[Nc\])", r"\1_^\2", self.palavra)
+        # # -meteo-
+        # self.palavra = sub(r"(m\[At\]e\[Nc\]\.t\[At\]e)\[Nc\]\.(o\[Nc\])", r"\1_^\2", self.palavra)
 
         # # Special rule to diphthongize words with "ial".
         # if search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada):
@@ -583,6 +602,8 @@ class Silaba:
         self.palavra = self.palavra.replace("]ia[", "]ja[")
         self.palavra = sub(r"\]a\[Nc\]\.o\[Nc\](s\[Cd\])?", r"]ao_^[Nc]\1", self.palavra)
         self.palavra = sub(r"(\...?\[At\]._\^)\[Nc\](\")?\.([aeiouEO]\[Nc\])", r"\2\1\3", self.palavra)
+        self.palavra = sub(r"(\...?\[At\]).\[Nc\](\")?\.([aeoEO])_\^u\[Nc\]", r"\2\1\3w[Nc]", self.palavra)
+        self.palavra = sub(r"(\...?\[At\].)\[Nc\](\")?\.([aeiouEO]_\^\[Nc\])", r"\2\1\3", self.palavra)
         self.palavra = sub(r"(\".[^\".]+\.)(..?\[At\])?e\[Nc\]\.([ao]\[Nc\])", r"\1\2e_^\3", self.palavra)
 
         # Complex codas.

@@ -356,6 +356,8 @@ def main() -> int:
             reason = "w diph"
         elif pred_norm.replace("j", "i") == gold_norm:
             reason = "j diph"
+        elif pred_norm.replace("E", "e").replace("O", "o") == gold_norm.replace("E", "e").replace("O", "o") :
+            reason = "open/close"
         else:
             reason = "other"
 

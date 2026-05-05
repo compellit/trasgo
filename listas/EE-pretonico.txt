@@ -313,7 +313,7 @@ setenario
 setestrelo
 sexaxenario
 solemnemente
-S.O.S
+s.o.s
 suficientemente
 suriemení
 suriemenita
@@ -405,7 +405,6 @@ pestilencial
 energúmena
 executor
 acibechería
-Etelvino
 edematoso
 esencial
 exaxeración
@@ -419,8 +418,6 @@ econometría
 esaxeración
 execución
 mediterránea
-Edelmiro
-executoria
 epidemioloxía
 eternizar
 arteriosclerose
@@ -433,9 +430,7 @@ eclecticamente
 termometría
 termoeléctrico
 executorio
-enerxética
 existencialismo
-Etelvina
 executivo
 elección
 sexaxesimal
@@ -461,3 +456,6 @@ eccematosa
 eritematoso
 exantemático
 exantematoso
+etelvino
+edelmiro
+etelvina

@@ -311,7 +311,7 @@ setenario
 setestrelo
 sexaxenario
 solemnemente
-S.O.S
+s.o.s
 suficientemente
 suriemení
 suriemenita
@@ -343,7 +343,7 @@ insistentemente
 neglixentemente
 esencial
 competentemente
-Setecoros
+setecoros
 diferentemente
 panhelenista
 correntemente
@@ -357,7 +357,7 @@ incongruentemente
 intermitentemente
 impertinentemente
 decentemente
-Enedina
+enedina
 consistentemente
 sorprendentemente
 exantemática

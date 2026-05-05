@@ -313,7 +313,7 @@ setenario
 setestrelo
 sexaxenario
 solemnemente
-S.O.S
+s.o.s
 suficientemente
 suriemení
 suriemenita

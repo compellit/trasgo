@@ -163,15 +163,15 @@ def normalize_for_comparison(text: str, mode: str, *, ignore_open_close: bool = 
 
 
 LOOKUP_LIST_SUBSTITUTIONS = [
-    ("e_ton", [(r'"\.([^\.]+)?e', r'".\1E')]),
+    ("e_ton", [(r'"([^\.]+)?e', r'"\1E')]),
     ("e_pre", [(r'e([^\"e]*)"', r'E\1"')]),
     ("ee_pre", [(r'e([^\"e]*)e([^\"e]*)"', r'E\1e\2"')]),
     ("ee_caps_pre", [(r'e([^\"e]*)e([^\"e]*)"', r'E\1E\2"')]),
-    ("o_ton", [(r'"\.([^\.]+)?o', r'".\1O')]),
+    ("o_ton", [(r'"([^\.]+)?o', r'"\1O')]),
     ("o_pre", [(r'o([^\"o]*)"', r'O\1"')]),
     ("oo_pre", [(r'o([^\"o]*)o([^\"o]*)"', r'O\1o\2"')]),
     ("oo_caps_pre", [(r'o([^\"o]*)o([^\"o]*)"', r'O\1O\2"')]),
-    ("eo_ton", [(r'"\.([^\.]+)?o', r'".\1O'), (r'"\.([^\.]+)?e', r'".\1E')]),
+    ("eo_ton", [(r'"([^\.]+)?o', r'"\1O'), (r'"([^\.]+)?e', r'"\1E')]),
 ]
 
 
@@ -432,7 +432,10 @@ def main() -> int:
 
     form_correct = {forma for forma, stats in form_stats.items() if bool(stats["any_exact"])}
     for row in output_rows:
-        row["correct_for_form"] = str(row["forma"] in form_correct)
+        correct_for_form = row["forma"] in form_correct
+        row["correct_for_form"] = str(correct_for_form)
+        if correct_for_form:
+            row["reason"] = "exact"
 
     unique_forms = len(form_stats)
     exact = len(form_correct)

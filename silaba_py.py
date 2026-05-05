@@ -482,6 +482,9 @@ class Silaba:
             self.palavra = sub(r"(e)\[Nc\]\.([ao]\[Nc\]\"?\.(l|gr)\[At\])", r"\1_^\2", self.palavra)
         # -video-
         self.palavra = sub(r"(v\[At\]i\[Nc\]\.d\[At\]e)\[Nc\]\.(o\[Nc\])", r"\1_^\2", self.palavra)
+        # -linear-
+        self.palavra = sub(r"(l\[At\]i\[Nc\])(\.n\[At\]e)\[Nc\](\")\.(a\[Nc\]r\[Cd\])", r"\1\3\2_^\4", self.palavra)
+        
         # # -meteo-
         # self.palavra = sub(r"(m\[At\]e\[Nc\]\.t\[At\]e)\[Nc\]\.(o\[Nc\])", r"\1_^\2", self.palavra)
 
@@ -605,7 +608,6 @@ class Silaba:
         self.palavra = sub(r"(\...?\[At\]).\[Nc\](\")?\.([aeoEO])_\^u\[Nc\]", r"\2\1\3w[Nc]", self.palavra)
         self.palavra = sub(r"(\...?\[At\].)\[Nc\](\")?\.([aeiouEO]_\^\[Nc\])", r"\2\1\3", self.palavra)
         self.palavra = sub(r"(\".[^\".]+\.)(..?\[At\])?e\[Nc\]\.([ao]\[Nc\])", r"\1\2e_^\3", self.palavra)
-
         # Complex codas.
         if not self.args.c:
             self.palavra = sub(r'n\[Cd\](")?\.n\[At\]', r"\1.n[At]", self.palavra)

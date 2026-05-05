@@ -162,6 +162,33 @@ def normalize_for_comparison(text: str, mode: str, *, ignore_open_close: bool = 
     return value
 
 
+LOOKUP_LIST_SUBSTITUTIONS = [
+    ("e_ton", [(r'"\.([^\.]+)?e', r'".\1E')]),
+    ("e_pre", [(r'e([^\"e]*)"', r'E\1"')]),
+    ("ee_pre", [(r'e([^\"e]*)e([^\"e]*)"', r'E\1e\2"')]),
+    ("ee_caps_pre", [(r'e([^\"e]*)e([^\"e]*)"', r'E\1E\2"')]),
+    ("o_ton", [(r'"\.([^\.]+)?o', r'".\1O')]),
+    ("o_pre", [(r'o([^\"o]*)"', r'O\1"')]),
+    ("oo_pre", [(r'o([^\"o]*)o([^\"o]*)"', r'O\1o\2"')]),
+    ("oo_caps_pre", [(r'o([^\"o]*)o([^\"o]*)"', r'O\1O\2"')]),
+    ("eo_ton", [(r'"\.([^\.]+)?o', r'".\1O'), (r'"\.([^\.]+)?e', r'".\1E')]),
+]
+
+
+def apply_substitutions(text: str, substitutions: list[tuple[str, str]]) -> str:
+    value = text
+    for pattern, replacement in substitutions:
+        value = re.sub(pattern, replacement, value)
+    return value
+
+
+def lookup_list_reason(pred_norm: str, gold_norm: str) -> str | None:
+    for reason, substitutions in LOOKUP_LIST_SUBSTITUTIONS:
+        if apply_substitutions(pred_norm, substitutions) == gold_norm:
+            return reason
+    return None
+
+
 def should_skip_word(word: str) -> bool:
     if not word:
         return True
@@ -356,6 +383,8 @@ def main() -> int:
             reason = "w diph"
         elif pred_norm.replace("j", "i") == gold_norm:
             reason = "j diph"
+        elif (lookup_reason := lookup_list_reason(pred_norm, gold_norm)) is not None:
+            reason = lookup_reason
         elif pred_norm.replace("E", "e").replace("O", "o") == gold_norm.replace("E", "e").replace("O", "o") :
             reason = "open/close"
         else:

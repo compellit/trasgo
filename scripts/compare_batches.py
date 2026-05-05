@@ -12,7 +12,7 @@ HERE = Path(__file__).resolve().parent
 PROJECT_DIR = HERE.parent
 RESULTS_DIR = PROJECT_DIR / "results"
 
-DEFAULT_COMPARE_COLUMNS = ["correct", "correct_for_form"]
+DEFAULT_COMPARE_COLUMNS = ["correct_for_form"]
 DEFAULT_CONTEXT_COLUMNS = ["forma", "fonetica", "gold_sampa_preproc"]
 DEFAULT_BATCH_COLUMNS = ["silaba_output_raw", "silaba_output_preproc"]
 
@@ -125,7 +125,8 @@ def compare_batches(
         for col in compare_columns:
             if col not in row_1 or col not in row_2:
                 raise ValueError(f"Column {col!r} must exist in both batches.")
-            result[f"C_{col}"] = compare_bool_values(row_1[col], row_2[col])
+            comparison_col = "state" if compare_columns == DEFAULT_COMPARE_COLUMNS else f"C_{col}"
+            result[comparison_col] = compare_bool_values(row_1[col], row_2[col])
             result[f"{col}_{batch_1_label}"] = unescape_quotes(row_1[col])
             result[f"{col}_{batch_2_label}"] = unescape_quotes(row_2[col])
 

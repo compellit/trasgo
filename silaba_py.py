@@ -549,14 +549,14 @@ class Silaba:
         elif search(r"electr", self.entrada):
             self.palavra = sub(r'e\[Nc\](")?\.l\[At\]e\[Nc\]', r'E[Nc]\1.l[At]E[Nc]', self.palavra)
 
-        self._apply_lookup_list(shared.e_ton, r'"\.([^\.]+)?e', r'".\1E', stressed=True)
-        self._apply_lookup_list(shared.e_pre, r'e([^\"e]*)\"', r'E\1"', prestressed=True)
         self._apply_lookup_list(shared.ee_pre, r'e([^\"e]*)e([^\"e]*)\"', r'E\1e\2"', prestressed=True)
         self._apply_lookup_list(shared.ee_caps_pre, r'e([^\"e]*)e([^\"e]*)\"', r'E\1E\2"', prestressed=True)
-        self._apply_lookup_list(shared.o_ton, r'"\.([^\.]+)?o', r'".\1O', stressed=True, support_entrada2=True)
-        self._apply_lookup_list(shared.o_pre, r'o([^\"o]*)\"', r'O\1"', prestressed=True)
+        self._apply_lookup_list(shared.e_ton, r'"\.([^\.]+)?e', r'".\1E', stressed=True)
+        self._apply_lookup_list(shared.e_pre, r'e([^\"e]*)\"', r'E\1"', prestressed=True)
         self._apply_lookup_list(shared.oo_pre, r'o([^\"o]*)o([^\"o]*)\"', r'O\1o\2"', prestressed=True)
         self._apply_lookup_list(shared.oo_caps_pre, r'o([^\"o]*)o([^\"o]*)\"', r'O\1O\2"', prestressed=True)
+        self._apply_lookup_list(shared.o_ton, r'"\.([^\.]+)?o', r'".\1O', stressed=True, support_entrada2=True)
+        self._apply_lookup_list(shared.o_pre, r'o([^\"o]*)\"', r'O\1"', prestressed=True)
 
         for token in shared.vbos_alt:
             if self.entrada == token:

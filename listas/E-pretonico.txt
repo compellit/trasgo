@@ -744,7 +744,6 @@ cervato
 cervexería
 cervical
 cerviña
-cerviño
 cerviz
 cervúa
 cervún
@@ -752,8 +751,6 @@ cesación
 cesamento
 cesante
 cesantía
-cesar
-cesárea
 cesáreo
 cesariana
 cesariano
@@ -2559,7 +2556,6 @@ grecorromano
 gremial
 grosería
 guerreira
-guerreiro
 guerrilla
 guerrilleira
 guerrilleiro
@@ -3534,7 +3530,6 @@ merdento
 meritoria
 meritoriamente
 meritorio
-merlín
 merlón
 mesmamente
 mestría
@@ -4182,8 +4177,6 @@ protuberante
 provenzal
 provenzalismo
 provenzalista
-proverbial
-proverbialmente
 providencial
 providencialismo
 providencialista
@@ -4925,7 +4918,6 @@ terrorífico
 terrorismo
 terrorista
 terrosa
-terroso
 teselada
 teselado
 tesitura
@@ -5254,7 +5246,6 @@ xeseiro
 xesosa
 xesoso
 xestación
-xestal
 xestante
 xestatoria
 xestatorio

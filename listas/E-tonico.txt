@@ -625,7 +625,6 @@ canté
 cantelo
 canterla
 capela
-capelo
 capitel
 caquéctica
 caquéctico
@@ -2046,7 +2045,6 @@ legra
 legua
 leitarega
 leixaprén
-lema
 leme
 lémure
 lémures
@@ -3172,7 +3170,6 @@ serra
 serradela
 serva
 servo
-sésamo
 sesaxésima
 sesaxésimo
 sésega
@@ -3787,7 +3784,6 @@ vilamourel
 brecha
 traspielas
 félix
-abeledo
 demetrio
 web
 brenlla
@@ -3822,7 +3818,6 @@ abel
 xuvencos
 néstor
 covela
-ver
 pinel
 parestesia
 gabriela

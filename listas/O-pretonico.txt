@@ -318,7 +318,6 @@ broquear
 brosada
 brosear
 bucolicamente
-burocraticamente
 cabotaxe
 cabriolar
 cabriolé
@@ -599,7 +598,6 @@ cornana
 cornear
 cornecha
 cornecho
-corneira
 cornelán
 cornelana
 corneta
@@ -1492,7 +1490,6 @@ hospedaxe
 hospiciana
 hospiciano
 hospicio
-hospital
 hospitalaria
 hospitalariamente
 hospitalario
@@ -1870,7 +1867,6 @@ morada
 morado
 morador
 moradora
-moral
 moralidade
 moralismo
 moralista
@@ -2862,7 +2858,6 @@ porcalleiro
 porcamente
 porcina
 porcino
-porqueira
 porqueiro
 porrada
 portaavións
@@ -2879,7 +2874,6 @@ portaría
 portavoz
 portavultos
 porteira
-porteiro
 porteña
 porteño
 portería
@@ -3200,7 +3194,6 @@ solitariamente
 solitario
 soltamente
 somatotropina
-soprón
 sorción
 sordidamente
 sordidez
@@ -3552,7 +3545,6 @@ reordenación
 conmoción
 obreirista
 olaia
-oliveira
 brotar
 osvaldo
 clotilde
@@ -3620,6 +3612,5 @@ embostar
 holandesa
 populoso
 acrisolado
-nogueira
 oliváceo
 ofiolita

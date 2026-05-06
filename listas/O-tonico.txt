@@ -1,6 +1,5 @@
 enxofre
 ollo2
-gasosa
 polada2
 petolo2
 moco2
@@ -917,7 +916,6 @@ confirmatoria
 confirmatorio
 conforme
 confort
-conforto
 congratulatoria
 congratulatorio
 congrua
@@ -3433,7 +3431,6 @@ rizópodos
 rizotónica
 rizotónico
 robot
-robra
 roca
 rocha
 rocho2
@@ -3804,7 +3801,6 @@ torgo
 torio
 torna
 tornafogo
-torno
 torpe
 tórpida
 tórpido
@@ -4035,7 +4031,6 @@ xonia
 xónica
 xónico
 xonio
-xota
 xoves
 zacote
 zamborca
@@ -4078,7 +4073,6 @@ rodas
 froila
 cachopa
 dezanove
-son
 pol
 pantiñobre
 carroza

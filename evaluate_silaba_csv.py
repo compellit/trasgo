@@ -383,11 +383,14 @@ def main() -> int:
             reason = "w diph"
         elif pred_norm.replace("j", "i") == gold_norm:
             reason = "j diph"
-        elif (("E" in gold_norm or "O" in gold_norm) and 
-              (lookup_reason := lookup_list_reason(pred_norm.replace("E", "e").replace("O", "o"), gold_norm)) is not None):
-            reason = lookup_reason
-        elif pred_norm.replace("E", "e").replace("O", "o") == gold_norm.replace("E", "e").replace("O", "o") :
-            reason = "open/close"
+        elif "E" in gold_norm or "O" in gold_norm:
+            closed_pred_norm = pred_norm.replace("E", "e").replace("O", "o")
+            if (lookup_reason := lookup_list_reason(closed_pred_norm, gold_norm)) is not None:
+                reason = lookup_reason
+            elif closed_pred_norm == gold_norm.replace("E", "e").replace("O", "o"):
+                reason = "open/close"
+            else:
+                reason = "other"
         else:
             reason = "other"
 

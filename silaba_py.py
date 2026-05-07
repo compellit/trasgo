@@ -588,6 +588,7 @@ class Silaba:
             elif self.entrada_lem or self.entrada_lem2:
                 if self.entrada_lem == token or self.entrada_lem2 == token:
                     self.palavra = sub(pattern, replacement, self.palavra)
+
             if support_entrada2 and self.entrada2 and self.entrada2 == token:
                 if stressed:
                     self.palavra = sub(r"o([^o]*)\"", r'O\1"', self.palavra)
@@ -815,7 +816,7 @@ class Silaba:
             self.entrada = sub(r"ão", "ón", self.entrada)
         self.entrada = sub(r"ã([^i]|$)", r"án\1", self.entrada)
 
-        if search(r"(eiro|eira|iño|iña|ciño|ciña|mente|ito|ita)", self.entrada):
+        if search(r"(eiro|eira|iño|iña|ciño|ciña|mente|ito|ita)$", self.entrada):
             self.entrada2 = self.entrada
             for pat, repl in [
                 (r"eiros?$", "o"), (r"ciños?$", ""), (r"iños?$", "o"), (r"citos?$", ""),
@@ -928,7 +929,7 @@ class Silaba:
         self.input_word = self.entrada
         self.palavra = self.entrada.replace("-", "")
 
-        if search(r"(eiro|eira|iño|iña|ciño|ciña|mente|ito|ita)", self.entrada):
+        if search(r"(eiro|eira|iño|iña|ciño|ciña|mente|ito|ita)$", self.entrada):
             self.entrada2 = self.entrada
             for pat, repl in [
                 (r"eiros?$", "o"), (r"iños?$", "o"), (r"itos?$", "o"),

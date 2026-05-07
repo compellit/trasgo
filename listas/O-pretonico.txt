@@ -488,10 +488,8 @@ coloquialismo
 coloquialmente
 comicamente
 comicidade
-compensatoriamente
 complicidade
 concoidal
-concordemente
 condesa
 condiloma
 condominio
@@ -717,7 +715,6 @@ desbloquear
 descodificar
 descolonización
 descolonizar
-descompostamente
 desconformidade
 descontrolar
 descrocadura
@@ -3232,8 +3229,6 @@ teleobxectivo
 tensorial
 teoloxizar
 teoricamente
-termidoriana
-termidoriano
 terranovense
 territorial
 territorialidade
@@ -3614,3 +3609,6 @@ populoso
 acrisolado
 oliváceo
 ofiolita
+porqueira
+moral
+porqueira

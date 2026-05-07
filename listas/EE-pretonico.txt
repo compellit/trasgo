@@ -2,7 +2,6 @@ aceptabelmente
 aceptablemente
 aeroterapia
 aeroterrestre
-alegremente
 alferecía
 amarelecer
 aterraplenar
@@ -17,12 +16,10 @@ benquerenza
 benquerer
 benquerida
 benquerido
-brevemente
 certeiramente
 cincuentenario
 clerecía
 coetaneamente
-conscientemente
 considerabelmente
 considerablemente
 criselefantina
@@ -242,7 +239,6 @@ homoxeneizador
 homoxeneizar
 iemení
 iemenita
-impacientemente
 impecabelmente
 impecablemente
 inalterabelmente
@@ -271,7 +267,6 @@ insuficientemente
 interminabelmente
 interminablemente
 lebrescura
-levemente
 liberoleñosa
 liberoleñoso
 marelecer
@@ -284,7 +279,6 @@ miserablemente
 mixedematosa
 mixedematoso
 oligoelemento
-pacientemente
 panhelenismo
 paralelepípedo
 preelectoral
@@ -313,7 +307,6 @@ setenaria
 setenario
 setestrelo
 sexaxenario
-solemnemente
 s.o.s
 suficientemente
 suriemení
@@ -461,3 +454,4 @@ exantematoso
 etelvino
 edelmiro
 etelvina
+

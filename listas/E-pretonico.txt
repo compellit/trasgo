@@ -944,7 +944,6 @@ congregante
 congregar
 conmiseración
 consecución
-consecuentemente
 consecutiva
 consecutivamente
 consecutivo
@@ -995,7 +994,6 @@ contrariedade
 contrarrestar
 convección
 convector
-convenientemente
 conversación
 conversador
 conversadora
@@ -1129,7 +1127,6 @@ defectivo
 defectuosa
 defectuosamente
 defectuoso
-deficientemente
 deflector
 deflegmar
 deflexión
@@ -1212,11 +1209,7 @@ desenfardelar
 desengavelar
 desenherbar
 desenrodelar
-desentebrecer
 desenvernizar
-desequilibrada
-desequilibrado
-desequilibrar
 desequilibrio
 desequipada
 desequipado
@@ -1631,7 +1624,6 @@ emancipadora
 emancipar
 emasculación
 emascular
-embelecer
 embelgar
 emblemática
 emblemático
@@ -1706,7 +1698,6 @@ enciclopedista
 encolerizar
 encostelada
 encostelado
-encubertamente
 endemicamente
 endometrite
 enérxica
@@ -1744,7 +1735,6 @@ ensimesmar
 entebrecer
 entenrecedor
 entenrecemento
-entenrecer
 enterite
 enterococo
 enterocolite
@@ -1757,7 +1747,6 @@ enunciativa
 enunciativo
 enurese
 envellecemento
-envellecer
 envernizar
 enxeñería
 enxesadura
@@ -2007,7 +1996,6 @@ espadeleiro
 esparteína
 espatelar
 especar
-especieira
 especieiro
 específica
 especificación
@@ -2040,7 +2028,6 @@ especulativamente
 especulativo
 espermática
 espermático
-espernexar
 esplendidamente
 esplendidez
 esplendor
@@ -2049,8 +2036,6 @@ esplendoroso
 esplenite
 espombelar
 esportelar
-esquecedizo
-esquecemento
 esquecer
 esquecíbel
 esquecible
@@ -2064,7 +2049,6 @@ estartelar
 estereóbata
 estereofonía
 estereofónico
-estereografía
 estereograma
 estereometría
 estereoquímica
@@ -2225,7 +2209,6 @@ exarca
 exarcado
 excarceración
 excarcerar
-excelsamente
 excelsitude
 excentricamente
 excentricidade
@@ -2514,7 +2497,6 @@ frecuencímetro
 frecuentar
 frecuentativa
 frecuentativo
-frecuentemente
 fregués
 freguesa
 freneticamente
@@ -2866,9 +2848,7 @@ imperceptíbel
 imperceptibelmente
 imperceptibilidade
 imperceptible
-imperceptiblemente
 imperfección
-imperfectamente
 imperfectíbel
 imperfectible
 imperfectiva
@@ -2928,7 +2908,6 @@ incoherencia
 incoherente
 incompletamente
 inconexión
-inconsecuentemente
 inconsiderada
 inconsideradamente
 inconsiderado
@@ -2947,11 +2926,9 @@ increpar
 incuestionábel
 incuestionable
 indefectíbel
-indefectibelmente
 indefectibilidade
 indefectible
 indefectiblemente
-indelebelmente
 indelebilidade
 indeleblemente
 indeliberada
@@ -3207,7 +3184,6 @@ irreflexiva
 irreflexivamente
 irreflexivo
 irremediábel
-irremediabelmente
 irremediable
 irremediablemente
 irremunerada
@@ -3878,7 +3854,6 @@ pectínidos
 pectoral
 pectosa
 pedantería
-pedestremente
 pedicelada
 pedicelado
 pedicelario
@@ -3895,7 +3870,6 @@ pelviano
 pelvímetro
 pendular
 pendulón
-peneleira
 peneleiro
 penitencial
 penitenciaría
@@ -3906,10 +3880,8 @@ pequinés
 pequinesa
 percepción
 perceptíbel
-perceptibelmente
 perceptibilidade
 perceptible
-perceptiblemente
 perceptiva
 perceptivo
 perceptor
@@ -3917,7 +3889,6 @@ perceptora
 percherón
 percherona
 perecuación
-perennemente
 perennidade
 perentoriedade
 perfección
@@ -3925,7 +3896,6 @@ perfeccionamento
 perfeccionar
 perfeccionismo
 perfeccionista
-perfectamente
 perfectíbel
 perfectibilidade
 perfectible
@@ -3962,7 +3932,6 @@ persiana
 persiano
 perspectiva
 perspectivismo
-perversamente
 perversidade
 pesimamente
 pesimismo
@@ -4436,7 +4405,6 @@ revelado
 revelador
 reveladora
 revelar
-revellecer
 reverencial
 reverenciar
 reverenciosa
@@ -4616,7 +4584,6 @@ setembrina
 setembrino
 setentrión
 setentrional
-severamente
 severidade
 sexaxésimo
 sexenio
@@ -4715,7 +4682,6 @@ subrepticia
 subrepticiamente
 subrepticio
 subsección
-subsecuentemente
 subterránea
 subterráneo
 subversión
@@ -4744,8 +4710,6 @@ superar
 superfetación
 superfluamente
 superfluidade
-superheterodina
-superheterodino
 superior
 superior1
 superior2
@@ -4840,8 +4804,6 @@ tequila
 termal
 termalismo
 termidor
-termidoriana
-termidoriano
 terminación
 terminal
 terminal1
@@ -5893,7 +5855,6 @@ aumentar
 elpidio
 noemí
 elixio
-erea
 laudelina
 xesús
 albertina
@@ -5912,7 +5873,6 @@ valeriano
 delmiro
 eladio
 emiliano
-eliseo
 alemparte
 erundina
 eloi
@@ -5926,6 +5886,25 @@ evarista
 eladia
 elviña
 emiliana
-eliseu
 delmira
 xestosa
+perversamente
+erea
+termidoriana
+desequilibrada
+xestal
+excelsamente
+desequilibrar
+desequilibrado
+imperfectamente
+termidoriano
+encubertamente
+merlín
+eliseo
+perfectamente
+guerreiro
+peneleira
+severamente
+especieira
+eliseu
+cesar

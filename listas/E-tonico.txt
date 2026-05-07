@@ -2043,7 +2043,6 @@ laverco
 lebre
 legra
 legua
-leitarega
 leixaprén
 leme
 lémure
@@ -2091,8 +2090,6 @@ listel
 litispendencia
 litosfera
 litoxénese
-litoxenética
-litoxenético
 lizquente
 lobelia
 logopedia
@@ -3677,7 +3674,6 @@ zorrega
 elpidio
 noemí
 elixio
-erea
 laudelina
 xesús
 albertina
@@ -3696,7 +3692,6 @@ valeriano
 delmiro
 eladio
 emiliano
-eliseo
 alemparte
 erundina
 eloi
@@ -3710,7 +3705,6 @@ evarista
 eladia
 elviña
 emiliana
-eliseu
 delmira
 xestosa
 elia
@@ -3870,7 +3864,6 @@ goberna
 elio
 mirandela
 eusebio
-mormentelos
 ferrer
 arsenia
 péptico
@@ -3939,3 +3932,11 @@ devesos
 numérico
 padornelo
 récord
+leitarega
+abeledo
+sésamo
+abeledo
+ver
+litoxenético
+mormentelos
+litoxenética

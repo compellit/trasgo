@@ -52,7 +52,6 @@ actinomicose
 acusatoria
 acusatorio
 adenoide
-admonitoria
 admonitorio
 adobe
 adónica
@@ -787,7 +786,6 @@ cistoscopio
 citatoria
 citatorio
 citodiagnóstico
-citolóxica
 citolóxico
 citote
 cladóceros
@@ -939,7 +937,6 @@ consorte
 cónsul
 consultorio
 contaquilómetros
-contraditoria
 contraditorio
 contraescota
 contraforte
@@ -1583,7 +1580,6 @@ faboca
 faboco
 facistol
 factótum
-fagocitose
 fagot
 falciforme
 falcónidos
@@ -1970,7 +1966,6 @@ hipotónica
 hipotónico
 hipótricos
 hipotrofia
-hipovitaminose
 hipoxia
 hipsómetro
 hisopo
@@ -2219,7 +2214,6 @@ liberatoria
 liberatorio
 licopodio
 limpabotas
-linfocitose
 linfogranulomatose
 linfoide
 lingote
@@ -2245,7 +2239,6 @@ litógrafa
 litógrafo
 litóloga
 litólogo
-litolóxica
 litolóxico
 lo
 lobio
@@ -2464,12 +2457,10 @@ misóxina
 misóxino
 mistagoga
 mistagogo
-mitocondria
 mitógrafa
 mitógrafo
 mitóloga
 mitólogo
-mitolóxica
 mitolóxico
 mitómana
 mitómano
@@ -2505,7 +2496,6 @@ mongol
 mongólica
 mongólico
 mongoloide
-monitoria
 monitorio
 monoatómica
 monoatómico
@@ -2913,7 +2903,6 @@ paranoica
 paranoico
 parapsicolóxica
 parapsicolóxico
-parasitolóxica
 parasitolóxico
 parasitose
 paratifoide
@@ -3623,7 +3612,6 @@ sónica
 sónico
 sonómetro
 soporte
-sorbitol
 sórdida
 sórdido
 sórneas
@@ -4191,7 +4179,6 @@ bibliómana
 loess
 serode
 cos
-lítote
 segovia
 gregoria
 teodora
@@ -4206,7 +4193,6 @@ lores
 rubiós
 fofe
 judoka
-olveiroa
 bibliófila
 ichó
 pepónide
@@ -4228,3 +4214,18 @@ vixoi
 cachote
 fabiola
 fricandó
+monitoria
+citolóxica
+mitolóxica
+robra
+sorbitol
+contraditoria
+fagocitose
+admonitoria
+linfocitose
+hipovitaminose
+mitocondria
+lítote
+parasitolóxica
+olveiroa
+litolóxica

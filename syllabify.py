@@ -5,7 +5,7 @@ Add syllable breaks from stressed/unstressed phonological words
 import pandas as pd
 import re
 import csv
-df = pd.read_csv("/home/anxo/compellit/silaba_gl/results/001.tsv", sep="\t")
+df = pd.read_csv("/home/anxo/compellit/silaba_gl/results/silaba/057.tsv", sep="\t")
 df = df[df.correct]
 
 VOWELS = ["a", "e", "i", "o", "u", "O", "E"]
@@ -62,7 +62,13 @@ for ortho, pred, gold in df[["forma", "silaba_output_raw","gold_sampa_preproc"]]
 
     #add sylable break after each vowel
     for i, c in enumerate(gold_s):
-        if c in VOWELS:
+        if gold == "polemO\\\"njaTe_^as" and gold[i] in VOWELS:
+            print(f"Checking word {gold} at position {i} with char {c}")
+            print(gold[i+1:i+5])
+            print(re.search(r"[eoEO]_\^([^aeiouEO]|$)", gold[i+1:i+5]))
+            print(gold[i+1:i+4])
+            print(re.search(r"_\^[aeiouEO]", gold[i+1:i+4]))
+        if c in VOWELS and not (re.search(r"^[eoEO]_\^([^aeiouEO]|$)", gold[i+1:])or re.search(r"_\^[aeiouEO]", gold[i+1:i+4])):                
             dots += 1
             gold_s = gold_s[:i+dots] + "." + gold_s[i+dots:]
 
@@ -161,5 +167,5 @@ for ortho, pred, gold in df[["forma", "silaba_output_raw","gold_sampa_preproc"]]
     }
 
 output_df = pd.DataFrame(output_dict)
-output_df.T.to_csv("syllabification.tsv", sep="\t", quoting=csv.QUOTE_NONE, escapechar="\\")
+output_df.T.to_csv("results/syllabify/057_001.tsv", sep="\t", quoting=csv.QUOTE_NONE, escapechar="\\")
 print(total_correct/total_words)

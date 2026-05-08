@@ -684,8 +684,8 @@ class Silaba:
         # self.palavra = sub(r"(a|e|i|o|u|A|E|I|O|U)N\[Nc\]", r"\1~N[Nc]", self.palavra)
         # self.palavra = sub(r'^(")?\.(a|e|i|o|u|A|E|I|O|U)\[Nc\]N', r"\1.\2~[Nc]N", self.palavra)
 
-        if search(r"iñ[oa]s?$", self.entrada):
-            self.palavra = self.palavra.replace("]i[Nc].J[At]", "]i~[Nc].J[At]")
+        # if search(r"iñ[oa]s?$", self.entrada):
+        #     self.palavra = self.palavra.replace("]i[Nc].J[At]", "]i~[Nc].J[At]")
 
         if (self.entrada == "ó" or self.entrada == "ós") and self.args.i:
             self.palavra = self.palavra.replace('"', "")

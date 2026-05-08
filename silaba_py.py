@@ -678,11 +678,11 @@ class Silaba:
         # (1) between two nasal segments
         # (2) beginning
         # (3) with a nasal segment into the nucleus
-        # (4) in inho/a(s)
-        self.palavra = sub(r"(J|m|n)\[At\](a|e|i|o|u|A|E|I|O|U)\[Nc\]N", r"\1[At]\2~[Nc]N", self.palavra)
-        self.palavra = sub(r"(J|m|n)\[At\](a|e|i|o|u|A|E|I|O|U)N\[Nc\]", r"\1[At]\2~N[Nc]", self.palavra)
-        self.palavra = sub(r"(a|e|i|o|u|A|E|I|O|U)N\[Nc\]", r"\1~N[Nc]", self.palavra)
-        self.palavra = sub(r'^(")?\.(a|e|i|o|u|A|E|I|O|U)\[Nc\]N', r"\1.\2~[Nc]N", self.palavra)
+        # # (4) in inho/a(s)
+        # self.palavra = sub(r"(J|m|n)\[At\](a|e|i|o|u|A|E|I|O|U)\[Nc\]N", r"\1[At]\2~[Nc]N", self.palavra)
+        # self.palavra = sub(r"(J|m|n)\[At\](a|e|i|o|u|A|E|I|O|U)N\[Nc\]", r"\1[At]\2~N[Nc]", self.palavra)
+        # self.palavra = sub(r"(a|e|i|o|u|A|E|I|O|U)N\[Nc\]", r"\1~N[Nc]", self.palavra)
+        # self.palavra = sub(r'^(")?\.(a|e|i|o|u|A|E|I|O|U)\[Nc\]N', r"\1.\2~[Nc]N", self.palavra)
 
         if search(r"iñ[oa]s?$", self.entrada):
             self.palavra = self.palavra.replace("]i[Nc].J[At]", "]i~[Nc].J[At]")

@@ -8,8 +8,8 @@ import csv
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-INPUT_PATH = HERE / "results" / "silaba" / "058.tsv"
-OUTPUT_PATH = HERE / "results" / "syllabify" / "058_001.tsv"
+INPUT_PATH = HERE / "results" / "silaba" / "059.tsv"
+OUTPUT_PATH = HERE / "results" / "syllabify" / "059_001.tsv"
 SUMMARY_PATH = HERE / "results" / "syllabify" / "summary.tsv"
 
 df = pd.read_csv(INPUT_PATH, sep="\t")

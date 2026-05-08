@@ -15,6 +15,10 @@ HERE = Path(__file__).resolve().parent
 RESULTS_DIR = HERE / "results" / "silaba"
 SUMMARY_PATH = RESULTS_DIR / "summary.tsv"
 ASYLLABIC_DIACRITIC = "\u032f"  # IPA non-syllabic mark, e.g. o̯.
+VOWELS = ["a", "e", "i", "o", "u", "O", "E"]
+SEMIVOWELS = ["j", "w"]
+VOWELS_SEMI = VOWELS + SEMIVOWELS
+STOPS_F = ["G", "B", "D", "t", "p", "k", "f", "g"]
 
 
 def guess_delimiter(path: Path) -> str:
@@ -140,8 +144,97 @@ def ipa_to_silaba_sampa(text: str) -> str:
     return value
 
 
-def strip_syllable_dots(text: str) -> str:
-    return text.replace(".", "")
+def check_semiconsonant(sylls: list[str], i: int) -> None:
+    if i + 1 < len(sylls):
+        if sylls[i + 1][0] in SEMIVOWELS:
+            if not (len(sylls[i + 1]) > 1 and sylls[i + 1][1] in VOWELS):
+                sylls[i] += sylls[i + 1][0]
+                sylls[i + 1] = sylls[i + 1][1:]
+        elif sylls[i + 1][0] == "N":
+            sylls[i] += sylls[i + 1][0]
+            sylls[i + 1] = sylls[i + 1][1:]
+
+
+def mark_stress(sylls: list[str], stress_idx: int, deleted_syllables: int) -> None:
+    if len(sylls) > 1:
+        if stress_idx == 0:
+            sylls[0] = f"\\\"{sylls[0]}"
+        else:
+            sylls[stress_idx - deleted_syllables - 1] += "\\\""
+    else:
+        sylls[0] = f"\\\"{sylls[0]}"
+
+
+def syllabify_sampa(text: str) -> str:
+    gold_s = text
+    dots = 0
+
+    # Add syllable break after each vowel, except inside asyllabic-vowel markers.
+    for i, c in enumerate(gold_s):
+        if c in VOWELS and not (
+            re.search(r"^[eoEO]_\^([^aeiouEO]|$)", text[i + 1 :])
+            or re.search(r"_\^[aeiouEO]", text[i + 1 : i + 4])
+        ):
+            dots += 1
+            gold_s = gold_s[: i + dots] + "." + gold_s[i + dots :]
+
+    sylls = re.split(r"\.|\\(\")", gold_s)
+    sylls = [s for s in sylls if s]
+
+    if "\"" not in sylls:
+        stress = False
+        stress_idx = 0
+    else:
+        stress = True
+        stress_idx = sylls.index("\"")
+        sylls = sylls[:stress_idx] + sylls[stress_idx + 1 :]
+
+    deleted_syllables = 0
+    for i, syll in enumerate(sylls):
+        syll = re.sub(r"tS", "4", syll)
+
+        if i == 0:
+            check_semiconsonant(sylls, i)
+            continue
+
+        if all(c not in VOWELS for c in syll):
+            sylls[i - 1] += syll
+            if i < stress_idx:
+                deleted_syllables += 1
+            del sylls[i]
+            check_semiconsonant(sylls, i)
+            continue
+
+        len_cons = next((x for x, c in enumerate(syll) if c in VOWELS_SEMI), len(syll))
+
+        if len_cons > 3:
+            sylls[i - 1] += syll[:2]
+            sylls[i] = syll[2:]
+        elif len_cons > 2:
+            if syll[0] not in VOWELS and syll[1] not in VOWELS_SEMI and syll[2] not in VOWELS_SEMI:
+                if (
+                    syll[1] == "s"
+                    or not (syll[1] in STOPS_F + ["b", "d", "g"] and syll[2] in ["l", "r"])
+                    and not syll[1:3] == "dl"
+                ):
+                    sylls[i - 1] += syll[:2]
+                    sylls[i] = syll[2:]
+                else:
+                    sylls[i - 1] += syll[:1]
+                    sylls[i] = syll[1:]
+        elif len_cons > 1:
+            if syll[0] not in VOWELS and syll[1] not in VOWELS_SEMI:
+                if not (syll[0] in STOPS_F and syll[1] in ["l", "r"] and not syll[:2] == "dl"):
+                    sylls[i - 1] += syll[0]
+                    sylls[i] = syll[1:]
+
+        check_semiconsonant(sylls, i)
+
+    if stress:
+        mark_stress(sylls, stress_idx, deleted_syllables)
+    
+
+    return ".".join(sylls).replace("4", "tS").replace(".\\\"", "\\\".")
 
 
 def collapse_open_close_vowels(text: str) -> str:
@@ -154,7 +247,7 @@ def normalize_for_comparison(text: str, mode: str, *, ignore_open_close: bool = 
     if ignore_open_close:
         value = collapse_open_close_vowels(value)
     if mode == "segmental":
-        for ch in ['"', " ", "/", "[", "]"]:
+        for ch in ['"', ".", " ", "/", "[", "]"]:
             value = value.replace(ch, "")
     elif mode == "no_dots":
         for ch in [".", " ", "/", "[", "]"]:
@@ -274,7 +367,7 @@ def main() -> int:
     parser.add_argument(
         "--compare-mode",
         choices=["segmental", "exact", "no_dots"],
-        default="no_dots",
+        default="exact",
         help='segmental ignores stress marks and syllable dots; no_dots ignores dots but keeps stress; exact compares the full SAMPA string.',
     )
     parser.add_argument("--delimiter", choices=[",", ";", "\\t"], help="Override input delimiter.")
@@ -342,10 +435,9 @@ def main() -> int:
 
         total += 1
         pred_sampa_raw = predict_sampa(word, args.mode, c=args.c, t=args.t, r=args.r, h=args.h, b=args.b)
-        pred_sampa = strip_syllable_dots(pred_sampa_raw)
-        gold_sampa = ipa_to_silaba_sampa(gold_phon)
+        gold_sampa = syllabify_sampa(ipa_to_silaba_sampa(gold_phon))
         pred_norm = normalize_for_comparison(
-            pred_sampa,
+            pred_sampa_raw,
             args.compare_mode,
             ignore_open_close=args.ignore_open_close_vowels,
         )

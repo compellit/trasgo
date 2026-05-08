@@ -5,13 +5,30 @@ Add syllable breaks from stressed/unstressed phonological words
 import pandas as pd
 import re
 import csv
-df = pd.read_csv("/home/anxo/compellit/silaba_gl/results/silaba/057.tsv", sep="\t")
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+INPUT_PATH = HERE / "results" / "silaba" / "058.tsv"
+OUTPUT_PATH = HERE / "results" / "syllabify" / "058_001.tsv"
+SUMMARY_PATH = HERE / "results" / "syllabify" / "summary.tsv"
+
+df = pd.read_csv(INPUT_PATH, sep="\t")
 df = df[df.correct]
 
 VOWELS = ["a", "e", "i", "o", "u", "O", "E"]
 SEMIVOWELS = ["j", "w"]
 VOWELS_SEMI = VOWELS + SEMIVOWELS
 STOPS_F = ["G", "B", "D", "t", "p", "k", "f", "g"]
+
+
+def append_summary(path, summary):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    write_header = not path.exists() or path.stat().st_size == 0
+    with path.open("a", encoding="utf-8", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=list(summary.keys()), delimiter="\t")
+        if write_header:
+            writer.writeheader()
+        writer.writerow(summary)
 
 def check_semiconsonant(sylls, i):
     """Check if next syllable starts with semiconsonant and
@@ -52,6 +69,7 @@ def mark_stress(sylls, stress_idx, deleted_syllables):
 total_words = 0
 total_correct = 0
 correct = 0
+wrong_pred_count = 0
 output_dict = {}
 
 
@@ -62,12 +80,6 @@ for ortho, pred, gold in df[["forma", "silaba_output_raw","gold_sampa_preproc"]]
 
     #add sylable break after each vowel
     for i, c in enumerate(gold_s):
-        if gold == "polemO\\\"njaTe_^as" and gold[i] in VOWELS:
-            print(f"Checking word {gold} at position {i} with char {c}")
-            print(gold[i+1:i+5])
-            print(re.search(r"[eoEO]_\^([^aeiouEO]|$)", gold[i+1:i+5]))
-            print(gold[i+1:i+4])
-            print(re.search(r"_\^[aeiouEO]", gold[i+1:i+4]))
         if c in VOWELS and not (re.search(r"^[eoEO]_\^([^aeiouEO]|$)", gold[i+1:])or re.search(r"_\^[aeiouEO]", gold[i+1:i+4])):                
             dots += 1
             gold_s = gold_s[:i+dots] + "." + gold_s[i+dots:]
@@ -158,6 +170,7 @@ for ortho, pred, gold in df[["forma", "silaba_output_raw","gold_sampa_preproc"]]
         wrong_pred = True
     else:
         wrong_pred = False
+    wrong_pred_count = wrong_pred_count + 1 if wrong_pred else wrong_pred_count
 
     output_dict[ortho] = {
         "syllabified_gold": syllabified_gold.replace("\\\"", "\""),
@@ -167,5 +180,18 @@ for ortho, pred, gold in df[["forma", "silaba_output_raw","gold_sampa_preproc"]]
     }
 
 output_df = pd.DataFrame(output_dict)
-output_df.T.to_csv("results/syllabify/057_001.tsv", sep="\t", quoting=csv.QUOTE_NONE, escapechar="\\")
-print(total_correct/total_words)
+OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
+output_df.T.to_csv(OUTPUT_PATH, sep="\t", quoting=csv.QUOTE_NONE, escapechar="\\")
+accuracy = total_correct / total_words if total_words else 0
+print(accuracy)
+
+summary = {
+    "input_file": str(INPUT_PATH.resolve()),
+    "annotated_output_file": str(OUTPUT_PATH.resolve()),
+    "rows_evaluated": str(total_words),
+    "exact_matches": str(total_correct),
+    "accuracy": f"{accuracy:.6f}",
+    "wrong_pred": str(wrong_pred_count),
+}
+append_summary(SUMMARY_PATH, summary)
+print(f"Wrote summary results to {SUMMARY_PATH}")

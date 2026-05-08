@@ -473,6 +473,7 @@ class Silaba:
 
         #         break
 
+        self.palavra = sub(r"(_\^)\[Nc\]\.([aeiouEO])", r"\1\2", self.palavra)
         # -ácea(s), -áceo(s)
         if search(r"áce[oa]s?$", self.entrada):
             self.palavra = sub(r"e\[Nc\]\.([oa]\[Nc\])(s\[Cd\])?$", r"e_^\1\2", self.palavra)

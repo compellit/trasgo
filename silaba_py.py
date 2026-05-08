@@ -924,7 +924,15 @@ class Silaba:
         cdc = ["gs", "ks", "bs", "ds", "ns", "ng", "nk", "np", "nt", "nb", "rg", "rk", "rt", "rs", "rd", "st", "ts", "lf", "ls", "lk", "ps", "ks", "k", "p", "f", "t"]
         br_words = ["abroga", "subrep", "subroga", "subruti", "subroti"]
         bl_words = ["oblong", "ablegad", "sublimin", "subling", "subluna", "subliñ"]
-        aton = ["con", "que", "en", "me", "te", "lle", "se", "o", "a", "os", "as", "de", "sen", "che", "llo", "lla", "lles", "llos", "cho", "cha", "chos", "chas", "por", "e", "mais"]
+        aton = ["con", "que", "en", "me", "te", "lle", "se", "o", "a", "os", "as",
+                "de", "sen", "che", "llo", "lla", "lles", "llos", "cho", "cha", "chos",
+                "chas", "por", "e", "mais", "cas", "nola", "nolo", "nolos", "nolas",
+                "llelo", "llela", "llelos", "llelas", "vos", "volos", "vola", "volo", "volas",
+                "cun", "cunha", "cunhas", "cuns", "na", "nas", "no", "nos", "tras",
+                "tralos", "trala", "tralo", "tralas", "da", "das", "do", "dos", "pra", "pro", "pras",
+                "pros", "co", "coa", "coas", "cos", "có", "cá", "cós", "cás",  "un", "uns", "unha", "unhas",                
+                "polo", "pola", "polas", "polos", "nolo", "nola", "nolos", "nolas",
+                "ma", "mas", "mo", "mos", "moi", "nun", "nuns", "nunha", "nunhas", "nin"]
 
         self.entrada = word.lower()
         self.input_word = self.entrada

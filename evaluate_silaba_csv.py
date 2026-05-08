@@ -12,7 +12,7 @@ from types import SimpleNamespace
 from silaba_py import Silaba, SilabaError
 
 HERE = Path(__file__).resolve().parent
-RESULTS_DIR = HERE / "results"
+RESULTS_DIR = HERE / "results" / "silaba"
 SUMMARY_PATH = RESULTS_DIR / "summary.tsv"
 ASYLLABIC_DIACRITIC = "\u032f"  # IPA non-syllabic mark, e.g. o̯.
 

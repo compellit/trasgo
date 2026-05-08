@@ -379,9 +379,9 @@ class Silaba:
         # Special rule to diphthongize words with "ial".
         if search(r"ial", self.entrada) and not search(r"^sial$|^dial|^trial$|^marial$|^antial|^afial|ialdade|^mial", self.entrada):
             self.palavra = self.palavra.replace("{i}[Nc]{a}[Nc]{l}", "{ia}[Nc]{l}")
-
+        # u after k/g before e/i as diphthong
         if search(r"[kg]\}\[At\]\{u\}\[Nc\]\{(e|i|é|í)", self.palavra):
-            self.palavra = sub(r"(k|g)\}\[At\]\{u\}\[Nc\]\{(e|é|i|í)", r"\1w}[At]{\2", self.palavra)
+            self.palavra = sub(r"(k|g)\}\[At\]\{u\}\[Nc\]\{(e|é|i|í)", r"\1[At]{w}{\2", self.palavra)
 
         # Special rules to parse words with "w/y(j)" as a glide.
         if search(r"{wi}", self.palavra):

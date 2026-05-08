@@ -10,7 +10,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 PROJECT_DIR = HERE.parent
-RESULTS_DIR = PROJECT_DIR / "results"
+RESULTS_DIR = PROJECT_DIR / "results" / "silaba"
 
 DEFAULT_COMPARE_COLUMNS = ["correct_for_form"]
 DEFAULT_CONTEXT_COLUMNS = ["forma", "fonetica", "gold_sampa_preproc"]

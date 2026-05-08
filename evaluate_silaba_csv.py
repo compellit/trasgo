@@ -234,7 +234,7 @@ def syllabify_sampa(text: str) -> str:
         mark_stress(sylls, stress_idx, deleted_syllables)
     
 
-    return ".".join(sylls).replace("4", "tS").replace(".\\\"", "\\\".")
+    return ".".join(sylls).replace("4", "tS").replace(".\"", "\".")
 
 
 def collapse_open_close_vowels(text: str) -> str:

@@ -963,7 +963,7 @@ class Silaba:
         if search(r"unha", self.palavra):
             self.palavra = sub(r"algunha", "alguNa", self.palavra)
             self.palavra = sub(r"ningunha", "ninguNa", self.palavra)
-            self.palavra = sub(r"^([dnc]?)unha(s)?$", r"\1uNa\2", self.palavra)
+            self.palavra = sub(r"unha(s)?$", r"uNa\1", self.palavra)
         elif search(r"nh", self.palavra):
             self.palavra = sub(r"nh", "n", self.palavra)
 

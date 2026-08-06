@@ -12,6 +12,11 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 LISTS_DIR = HERE / "listas"
 LEMMA_DIR = LISTS_DIR / "lemma"
+ILG_PHONETIC_LEXICAL_OUTPUTS = {
+    "ao": "O",
+    "aos": "Os",
+    "á": "a:",
+}
 
 
 def load_list(path: Path) -> list[str]:
@@ -52,6 +57,12 @@ class SharedLists:
     suf: list[str]
     poli_pre: list[str]
     mono_pre: list[str]
+    alt_e_i: list[str]
+    alt_e_ii: list[str]
+    alt_e_iii: list[str]
+    alt_o_i: list[str]
+    alt_o_ii: list[str]
+    alt_o_iii: list[str]
 
 
 @dataclass
@@ -92,6 +103,12 @@ def load_shared_lists() -> SharedLists:
         suf=load_list(LISTS_DIR / "sufixos.txt"),
         poli_pre=load_list(LISTS_DIR / "poli_pre.txt"),
         mono_pre=load_list(LISTS_DIR / "mono_pre.txt"),
+        alt_e_i=load_list(LISTS_DIR / "alternancia-E-I.txt"),
+        alt_e_ii=load_list(LISTS_DIR / "alternancia-E-II.txt"),
+        alt_e_iii=load_list(LISTS_DIR / "alternancia-E-III.txt"),
+        alt_o_i=load_list(LISTS_DIR / "alternancia-O-I.txt"),
+        alt_o_ii=load_list(LISTS_DIR / "alternancia-O-II.txt"),
+        alt_o_iii=load_list(LISTS_DIR / "alternancia-O-III.txt"),
     )
 
 
@@ -216,6 +233,9 @@ class Silaba:
         self.deep = ""
 
     def run(self, word: str) -> str:
+        if self.args.i and self.args.p:
+            if word.casefold() in ILG_PHONETIC_LEXICAL_OUTPUTS:
+                return ILG_PHONETIC_LEXICAL_OUTPUTS[word.casefold()]
         if self.args.l:
             return self.run_portuguese(word)
         return self.run_ilg(word)
@@ -690,6 +710,12 @@ class Silaba:
 
         if (self.entrada == "ó" or self.entrada == "ós") and self.args.i:
             self.palavra = self.palavra.replace('"', "")
+
+        # #Vowel alternation
+        # if re.match(r"e[sn]?",self.entrada):
+        #     lexema = sub(r"e[sn]?$", "", self.entrada)
+        #     if lexema in self.shared.alt_e_ii:
+        #         self.palavra = sub(r"(\"\.?)([^\[]+\[At\])?e(\[Nc\]\.)([^\[]+\[At\])?(e\[Nc\])([ns]\[Cd\]$)", "\1\2E\3\4\5",self.palavra)
 
     def _apply_vowel_surface_rules(self, vowel: str) -> None:
         accented = {"a": "á", "e": "é", "i": "í", "o": "ó", "u": "ú"}[vowel]

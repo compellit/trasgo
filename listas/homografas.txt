@@ -106,10 +106,10 @@ aventas	Verbo
 aventa	Verbo
 bolo2	Substantivo (peixe)
 bolo	Substantivo (pão)
-bota2	Substantivo (calçado) / Verbo
-bota	Substantivo (sementar) / bota de vinho
-botas2	Substantivo (calçado) / Verbo
-botas	Substantivo (sementar) / bota de vinho
+bota2	Substantivo (calçado/ bota de vinho) / Verbo
+bota	Substantivo (sementar) 
+botas2	Substantivo (calçado/ bota de vinho) / Verbo
+botas	Substantivo (sementar) 
 bote2	Substantivo
 botes2	Substantivo
 botes	Verbo
@@ -175,7 +175,7 @@ deste2	Verbo
 domo2	Verbo
 domo	Substantivo
 encolar2	Verbo (trazer ao colo)
-encolar	Verbo (aplicar cola)
+encolar	Verbo (aplicar cola para unir o cubrir)
 engorde2	Advérbio
 engorde	Substantivo / Verbo
 ergo2	Substantivo

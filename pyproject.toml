@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trasgo"
+version = "0.1.0"
+description = "Rule-based phonetic transcription and syllabification for Galician"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+authors = [
+    { name = "Anxo Alonso Pérez" },
+    { name = "Pablo Ruiz Fabo" },
+]
+keywords = ["Galician", "phonetic transcription", "syllabification", "grapheme-to-phoneme"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Natural Language :: Galician",
+    "Topic :: Text Processing :: Linguistic",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.scripts]
+trasgo = "trasgo.cli:main"
+
+[tool.setuptools.package-data]
+trasgo = ["lists/*.txt", "lists/*/*.txt"]

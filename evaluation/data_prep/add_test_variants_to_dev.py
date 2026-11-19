@@ -7,8 +7,8 @@ import csv
 from pathlib import Path
 
 
-DEFAULT_DEV = Path(__file__).with_name("data") / "banco_de_voces_pronuncia_dev.csv"
-DEFAULT_TEST = Path(__file__).with_name("data") / "banco_de_voces_pronuncia_test.csv"
+DEFAULT_DEV = Path(__file__).resolve().parent.parent / "data" / "banco_de_voces_pronuncia_dev.csv"
+DEFAULT_TEST = Path(__file__).resolve().parent.parent / "data" / "banco_de_voces_pronuncia_test.csv"
 
 
 def read_rows(path: Path) -> list[list[str]]:

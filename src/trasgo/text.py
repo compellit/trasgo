@@ -1,41 +1,24 @@
-#!/usr/bin/env python3
-"""Transcribe complete texts with :mod:`silaba_py`.
+"""Transcribe running text with :mod:`trasgo.word`.
 
-Punctuation is omitted from the result. Numbers are retained, and phonetic
-output receives the same word-boundary adjustments used by
-``transcribe_with_silaba_no_punct.py``.
+Punctuation is omitted from the result and numbers are kept as they are.
+In phonetic output, two rules apply across word boundaries: place assimilation
+of a word-final N, and b/d/g approximants at the start of a word.
 """
 
 from __future__ import annotations
 
-import argparse
 import re
-import sys
+from types import SimpleNamespace
 
-try:
-    from .silaba_py import Silaba, SilabaError
-except ImportError:  # Direct execution: python silaba_gl/silaba_text.py ...
-    from silaba_py import Silaba, SilabaError
+from .word import Silaba, SilabaError
 
 
-LETTERS = "A-Za-zÁÉÍÓÚÜÑÏáéíóúüñïÂÊÎÔÛâêîôû"
+LETTERS = "A-Za-zÁÉÍÓÚÜÑÏáéíóúüñïÂÊÎÔÛâêîôûÇçÃãÕõÀà"
 APOSTROPHES = "'’‘"
 WORD_RE = re.compile(rf"[{LETTERS}]+(?:[{APOSTROPHES}][{LETTERS}]+)?")
 TOKEN_RE = re.compile(
     rf"[{LETTERS}]+(?:[{APOSTROPHES}][{LETTERS}]+)?|\d+(?:[.,]\d+)?|[^\w\s]"
 )
-
-
-def reset_silaba_state(silaba: Silaba) -> None:
-    """Reset the mutable per-word state before reusing a Silaba instance."""
-    silaba.entrada = ""
-    silaba.entrada2 = None
-    silaba.entrada_lem = None
-    silaba.entrada_lem2 = None
-    silaba.entrada_vbex = None
-    silaba.input_word = ""
-    silaba.palavra = ""
-    silaba.deep = ""
 
 
 def assimilate_final_nasal(previous: str, following: str) -> str:
@@ -97,7 +80,7 @@ def prepro_text(text: str) -> str:
 class SilabaText:
     """Reusable full-text transcriber with a shared word-form cache."""
 
-    def __init__(self, args: argparse.Namespace):
+    def __init__(self, args: SimpleNamespace):
         self.args = args
         self.silaba = Silaba(args)
         self.cache: dict[str, str] = {}
@@ -108,7 +91,6 @@ class SilabaText:
         key = token.casefold()
         if key not in self.cache:
             try:
-                reset_silaba_state(self.silaba)
                 self.cache[key] = self.silaba.run(token)
             except SilabaError:
                 self.cache[key] = "erro"
@@ -150,49 +132,3 @@ class SilabaText:
             elif token[0].isalnum():
                 output.append(token)
         return " ".join(output)
-
-
-def parse_args(argv: list[str]) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(
-        description="Transcribe a complete text with silaba_py.py (punctuation is omitted).",
-        add_help=False,
-    )
-    parser.add_argument("--help", action="help", help="show this help message and exit")
-    ortho = parser.add_mutually_exclusive_group(required=True)
-    ortho.add_argument("-l", action="store_true", help="Portuguese orthography")
-    ortho.add_argument("-i", action="store_true", help="ILG/RAG orthography")
-
-    out = parser.add_mutually_exclusive_group(required=True)
-    out.add_argument("-d", action="store_true", help="Show phonological representation")
-    out.add_argument("-p", action="store_true", help="Show phonetic transcription")
-    out.add_argument("-s", action="store_true", help="Show syllabic transcription")
-
-    parser.add_argument("-c", action="store_true", help="Complex codas")
-    parser.add_argument("-t", action="store_true", help="Thetacism")
-    parser.add_argument("-r", action="store_true", help="Rotacism")
-    parser.add_argument("-h", action="store_true", help="Gheada")
-    parser.add_argument("-b", action="store_true", help="Broad transcription")
-    parser.add_argument(
-        "--prepro",
-        action="store_true",
-        help="Normalize apostrophes and historical spelling before transcription.",
-    )
-    parser.add_argument("text", help="Text to transcribe; quote it if it contains spaces.")
-    args = parser.parse_args(argv)
-    if args.d and (args.p or args.s or args.c or args.r or args.h or args.b):
-        parser.error("-d cannot be combined with -p/-s/-c/-r/-h/-b")
-    return args
-
-
-def main(argv: list[str] | None = None) -> int:
-    args = parse_args(sys.argv[1:] if argv is None else argv)
-    try:
-        print(SilabaText(args).run(args.text, prepro=args.prepro))
-    except SilabaError as exc:
-        print(str(exc), file=sys.stderr)
-        return 1
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())

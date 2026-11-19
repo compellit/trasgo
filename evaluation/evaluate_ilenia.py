@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Evaluate silaba_text.py on the sentence-level Ilenia TSV corpus."""
+"""Evaluate trasgo on the sentence-level Ilenia corpus."""
 
 from __future__ import annotations
 
@@ -7,13 +7,13 @@ import argparse
 import csv
 from pathlib import Path
 
-from evaluate_silaba_csv import build_silaba_args, levenshtein
-from silaba_text import TOKEN_RE, WORD_RE, SilabaText
+from evaluate_words import build_silaba_args, levenshtein
+from trasgo.text import TOKEN_RE, WORD_RE, SilabaText
 
 
 HERE = Path(__file__).resolve().parent
-DEFAULT_INPUT = HERE / "data" / "corpus_100_gl_ilenia_silaba.tsv"
-DEFAULT_OUTPUT = HERE / "results" / "ilenia_silaba" / "evaluation.tsv"
+DEFAULT_INPUT = HERE / "data" / "ilenia" / "ilenia_reference.tsv"
+DEFAULT_OUTPUT = HERE / "results" / "ilenia" / "evaluation.tsv"
 def orthographic_units(sentence: str) -> list[str]:
     """Return exactly the word/number units emitted by SilabaText."""
     return [
@@ -43,7 +43,7 @@ def write_rows(path: Path, rows: list[dict[str, str]]) -> None:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Evaluate silaba_text.py using the Ilenia TSV's ortho column as input and phon as gold.",
+        description="Evaluate trasgo using the Ilenia TSV's ortho column as input and phon as gold.",
         add_help=False,
     )
     parser.add_argument("--help", action="help", help="Show this help message and exit.")

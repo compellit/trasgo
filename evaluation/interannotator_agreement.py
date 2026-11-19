@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Measure agreement between two annotations of the Ilenia sentence corpus."""
+"""Measure agreement between two annotations of the Ilenia sentence corpus.
+
+Written by Anxo Alonso Pérez for his master's thesis; paths adapted for this repository.
+"""
 
 from __future__ import annotations
 
@@ -7,14 +10,14 @@ import argparse
 import csv
 from pathlib import Path
 
-from evaluate_silaba_csv import levenshtein
+from evaluate_words import levenshtein
 
 
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parent.parent
-DEFAULT_REFERENCE = ROOT / "data" / "contextual" / "ilenia_test.tsv"
-DEFAULT_COMPARISON = ROOT / "data" / "contextual" / "ilenia_annotation_2.tsv"
-IAA_DIR = ROOT / "results" / "contextual" / "iaa"
+ROOT = HERE
+DEFAULT_REFERENCE = ROOT / "data" / "ilenia" / "annotators" / "ilenia_annotator_1.tsv"
+DEFAULT_COMPARISON = ROOT / "data" / "ilenia" / "annotators" / "ilenia_annotator_2.tsv"
+IAA_DIR = ROOT / "results" / "iaa"
 DEFAULT_OUTPUT = IAA_DIR / "interannotator_agreement.tsv"
 DEFAULT_SUMMARY = IAA_DIR / "iaa_summary.tsv"
 DEFAULT_DISAGREEMENTS = IAA_DIR / "iaa_disagreements.tsv"

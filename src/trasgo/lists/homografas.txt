@@ -1,3 +1,4 @@
+# UNUSED: this list is not loaded by trasgo. Kept for reference.
 ollo	Substantivo
 ollo2	Verbo
 aquela	Verbo

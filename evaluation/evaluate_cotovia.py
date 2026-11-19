@@ -10,8 +10,16 @@ import unicodedata
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-RESULTS_DIR = HERE / "results_cotovia"
+RESULTS_DIR = HERE / "results" / "cotovia"
 SUMMARY_PATH = RESULTS_DIR / "summary_cotovia.tsv"
+
+
+def display_path(path: Path) -> str:
+    """Return ``path`` relative to the evaluation folder when possible (for summaries)."""
+    try:
+        return str(path.resolve().relative_to(HERE))
+    except ValueError:
+        return str(path.resolve())
 
 
 def guess_delimiter(path: Path) -> str:
@@ -400,8 +408,8 @@ def main() -> int:
     print(f"Wrote annotated results to {output_path}")
 
     summary = {
-        "input_file": str(input_path.resolve()),
-        "annotated_output_file": str(output_path.resolve()),
+        "input_file": display_path(input_path),
+        "annotated_output_file": display_path(output_path),
         "delimiter": "\\t" if delimiter == "\t" else delimiter,
         "no_header": str(args.no_header),
         "word_col": word_col,

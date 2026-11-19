@@ -1,16 +1,27 @@
-#!/usr/bin/env python3
+"""Word-level transcription and syllabification for Galician.
+
+Python port of Silaba 0.2 (Perl) by Marcos Garcia, with later adaptations.
+Each word is transcribed independently; see :mod:`trasgo.text` for running text.
+
+The options object passed to :class:`Silaba` has the same boolean attributes as
+the flags of the original Perl program:
+
+- orthography: ``i`` (ILG/RAG) or ``l`` (Portuguese)
+- output: ``d`` (phonological), ``p`` (phonetic) or ``s`` (syllabic constituents)
+- variants: ``c`` (complex codas), ``t`` (thetacism), ``r`` (rotacism),
+  ``h`` (gheada), ``b`` (broad transcription)
+"""
 
 from __future__ import annotations
 
-import argparse
 import re
-import sys
 from dataclasses import dataclass
 from pathlib import Path
+from types import SimpleNamespace
 
 
 HERE = Path(__file__).resolve().parent
-LISTS_DIR = HERE / "listas"
+LISTS_DIR = HERE / "lists"
 LEMMA_DIR = LISTS_DIR / "lemma"
 ILG_PHONETIC_LEXICAL_OUTPUTS = {
     "ao": "O",
@@ -20,8 +31,9 @@ ILG_PHONETIC_LEXICAL_OUTPUTS = {
 
 
 def load_list(path: Path) -> list[str]:
+    """Return the non-empty lines of a list file, skipping lines starting with #."""
     with path.open(encoding="utf-8") as fh:
-        return [line.strip() for line in fh if line.strip()]
+        return [line.strip() for line in fh if line.strip() and not line.startswith("#")]
 
 
 def search(pattern: str, text: str) -> bool:
@@ -54,15 +66,7 @@ class SharedLists:
     oo_caps_pre: list[str]
     vbos_alt: list[str]
     nps_eo: list[str]
-    suf: list[str]
     poli_pre: list[str]
-    mono_pre: list[str]
-    alt_e_i: list[str]
-    alt_e_ii: list[str]
-    alt_e_iii: list[str]
-    alt_o_i: list[str]
-    alt_o_ii: list[str]
-    alt_o_iii: list[str]
 
 
 @dataclass
@@ -100,15 +104,7 @@ def load_shared_lists() -> SharedLists:
         oo_caps_pre=load_list(LISTS_DIR / "OO-pretonico.txt"),
         vbos_alt=load_list(LISTS_DIR / "lista-vbo-EO-ton.txt"),
         nps_eo=load_list(LISTS_DIR / "lista-np-EO.txt"),
-        suf=load_list(LISTS_DIR / "sufixos.txt"),
         poli_pre=load_list(LISTS_DIR / "poli_pre.txt"),
-        mono_pre=load_list(LISTS_DIR / "mono_pre.txt"),
-        alt_e_i=load_list(LISTS_DIR / "alternancia-E-I.txt"),
-        alt_e_ii=load_list(LISTS_DIR / "alternancia-E-II.txt"),
-        alt_e_iii=load_list(LISTS_DIR / "alternancia-E-III.txt"),
-        alt_o_i=load_list(LISTS_DIR / "alternancia-O-I.txt"),
-        alt_o_ii=load_list(LISTS_DIR / "alternancia-O-II.txt"),
-        alt_o_iii=load_list(LISTS_DIR / "alternancia-O-III.txt"),
     )
 
 
@@ -217,12 +213,17 @@ class SilabaError(Exception):
 
 
 class Silaba:
-    def __init__(self, args: argparse.Namespace):
+    """Transcribe single words. ``args`` holds the flags described in the module docstring."""
+
+    def __init__(self, args: SimpleNamespace):
         self.args = args
         self.lemma_lists = load_lemma_lists()
         self.shared = load_shared_lists()
         self.portuguese = load_portuguese_lists()
+        self.reset()
 
+    def reset(self) -> None:
+        """Clear the per-word state left by the previous word."""
         self.entrada = ""
         self.entrada2: str | None = None
         self.entrada_lem: str | None = None
@@ -233,6 +234,8 @@ class Silaba:
         self.deep = ""
 
     def run(self, word: str) -> str:
+        """Return the transcription of ``word``; raise :class:`SilabaError` if it fails."""
+        self.reset()
         if self.args.i and self.args.p:
             if word.casefold() in ILG_PHONETIC_LEXICAL_OUTPUTS:
                 return ILG_PHONETIC_LEXICAL_OUTPUTS[word.casefold()]
@@ -929,6 +932,7 @@ class Silaba:
             self.palavra = sub(r"gu(ou|ei|ai|au|oi)", r"gw\1", self.palavra)
 
         self._check_digits()
+        # No triphthong rule for Portuguese orthography (first argument), as in Silaba 0.2.
         self._common_syllable_markup([], dip, nc, dig, atc, ats, cd, cdc, br_words, bl_words)
         self._split_syllables_and_stress_pt(aton)
         self._apply_vowel_lookups(self.portuguese)
@@ -1032,43 +1036,3 @@ class Silaba:
         if deep is not None:
             return deep
         return self._finalize_output()
-
-
-def parse_args(argv: list[str]) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Python port of silaba_0.2.pl", add_help=False)
-    parser.add_argument("--help", action="help", help="show this help message and exit")
-    ortho = parser.add_mutually_exclusive_group(required=True)
-    ortho.add_argument("-l", action="store_true", help="Portuguese orthography")
-    ortho.add_argument("-i", action="store_true", help="ILG/RAG orthography")
-
-    out = parser.add_mutually_exclusive_group(required=True)
-    out.add_argument("-d", action="store_true", help="Show phonological representation")
-    out.add_argument("-p", action="store_true", help="Show phonetic transcription")
-    out.add_argument("-s", action="store_true", help="Show syllabic transcription")
-
-    parser.add_argument("-c", action="store_true", help="Complex codas")
-    parser.add_argument("-t", action="store_true", help="Thetacism")
-    parser.add_argument("-r", action="store_true", help="Rotacism")
-    parser.add_argument("-h", action="store_true", help="Gheada")
-    parser.add_argument("-b", action="store_true", help="Broad transcription")
-    parser.add_argument("word")
-    args = parser.parse_args(argv)
-
-    if args.d and (args.p or args.s or args.c or args.r or args.h or args.b):
-        parser.error("-d cannot be combined with -p/-s/-c/-r/-h/-b")
-    return args
-
-
-def main(argv: list[str] | None = None) -> int:
-    args = parse_args(sys.argv[1:] if argv is None else argv)
-    try:
-        result = Silaba(args).run(args.word)
-    except SilabaError as exc:
-        print(str(exc))
-        return 1
-    print(result)
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())

@@ -9,7 +9,7 @@ import string
 import unicodedata
 from pathlib import Path
 
-from evaluate_silaba_csv import (
+from evaluate_words import (
     build_silaba_args,
     ipa_to_silaba_sampa,
     levenshtein,
@@ -21,8 +21,16 @@ from evaluate_silaba_csv import (
 HERE = Path(__file__).resolve().parent
 DEFAULT_INPUT_PATH = HERE / "data" / "iago_all.csv"
 DEFAULT_BANCO_PATH = HERE / "data" / "banco_de_voces_pronuncia.csv"
-RESULTS_DIR = HERE / "results" / "iago_silaba"
+RESULTS_DIR = HERE / "results" / "iago"
 SUMMARY_PATH = RESULTS_DIR / "summary.tsv"
+
+
+def display_path(path: Path) -> str:
+    """Return ``path`` relative to the evaluation folder when possible (for summaries)."""
+    try:
+        return str(path.resolve().relative_to(HERE))
+    except ValueError:
+        return str(path.resolve())
 
 EDGE_PUNCTUATION = string.punctuation + "¡¿«»“”‘’"
 STRESSED_VOWELS = {
@@ -282,7 +290,7 @@ def should_skip_word(word: str) -> bool:
 def main() -> int:
     parser = argparse.ArgumentParser(
         description=(
-            "Evaluate silaba_py.py against Iago sentence-level normalized text "
+            "Evaluate trasgo against Iago sentence-level normalized text "
             "and phonetic_transcription columns."
         ),
         add_help=False,
@@ -349,7 +357,7 @@ def main() -> int:
     banco_pronunciations = read_banco_pronunciations(banco_path)
     print(f"Banco pronunciations loaded: {sum(len(values) for values in banco_pronunciations.values())}")
 
-    # Validate the flag shape early, matching evaluate_silaba_csv.py behavior.
+    # Validate the flag shape early, matching evaluate_words.py behavior.
     build_silaba_args(args.mode, c=args.c, t=args.t, r=args.r, h=args.h, b=args.b)
 
     output_path = Path(args.output_file) if args.output_file else next_numbered_results_path(RESULTS_DIR)
@@ -531,12 +539,12 @@ def main() -> int:
     print(f"Wrote annotated results to {output_path}")
 
     summary = {
-        "input_file": str(input_path.resolve()),
-        "annotated_output_file": str(output_path.resolve()),
+        "input_file": display_path(input_path),
+        "annotated_output_file": display_path(output_path),
         "delimiter": "\\t" if delimiter == "\t" else delimiter,
         "text_col": args.text_col,
         "phon_col": args.phon_col,
-        "banco_file": str(banco_path.resolve()),
+        "banco_file": display_path(banco_path),
         "mode": args.mode,
         "compare_mode": args.compare_mode,
         "ignore_open_close_vowels": str(args.ignore_open_close_vowels),

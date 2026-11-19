@@ -9,11 +9,19 @@ import unicodedata
 from pathlib import Path
 from types import SimpleNamespace
 
-from silaba_py import Silaba, SilabaError
+from trasgo.word import Silaba, SilabaError
 
 HERE = Path(__file__).resolve().parent
-RESULTS_DIR = HERE / "results" / "silaba"
+RESULTS_DIR = HERE / "results" / "words"
 SUMMARY_PATH = RESULTS_DIR / "summary.tsv"
+
+
+def display_path(path: Path) -> str:
+    """Return ``path`` relative to the evaluation folder when possible (for summaries)."""
+    try:
+        return str(path.resolve().relative_to(HERE))
+    except ValueError:
+        return str(path.resolve())
 ASYLLABIC_DIACRITIC = "\u032f"  # IPA non-syllabic mark, e.g. o̯.
 VOWELS = ["a", "e", "i", "o", "u", "O", "E"]
 SEMIVOWELS = ["j", "w"]
@@ -65,6 +73,10 @@ def build_silaba_args(mode: str, *, c: bool = False, t: bool = False, r: bool = 
     )
 
 
+# One Silaba instance per flag combination, so the lists are loaded only once.
+_TRANSCRIBERS: dict[tuple, Silaba] = {}
+
+
 def predict_sampa(
     word: str,
     mode: str,
@@ -76,8 +88,11 @@ def predict_sampa(
     b: bool = False,
 ) -> str:
     args = build_silaba_args(mode, c=c, t=t, r=r, h=h, b=b)
+    key = tuple(sorted(vars(args).items()))
+    if key not in _TRANSCRIBERS:
+        _TRANSCRIBERS[key] = Silaba(args)
     try:
-        return Silaba(args).run(word)
+        return _TRANSCRIBERS[key].run(word)
     except SilabaError:
         return "erro"
 
@@ -150,9 +165,8 @@ def check_semiconsonant(sylls: list[str], i: int) -> None:
             if not (len(sylls[i + 1]) > 1 and sylls[i + 1][1] in VOWELS):
                 sylls[i] += sylls[i + 1][0]
                 sylls[i + 1] = sylls[i + 1][1:]
-        elif sylls[i + 1][0] == "N":
-            sylls[i] += sylls[i + 1][0]
-            sylls[i + 1] = sylls[i + 1][1:]
+        # N (from nh) before a vowel stays in the onset (u.Na), as in trasgo
+        # and in the Ilenia reference.
 
 
 def mark_stress(sylls: list[str], stress_idx: int, deleted_syllables: int) -> None:
@@ -353,7 +367,7 @@ def next_numbered_results_path(results_dir: Path) -> Path:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Evaluate silaba_py.py against a CSV/TSV with orthographic and phonetic columns.",
+        description="Evaluate trasgo against a CSV/TSV with orthographic and phonetic columns.",
         add_help=False,
     )
     parser.add_argument("--help", action="help", help="show this help message and exit")
@@ -552,8 +566,8 @@ def main() -> int:
     print(f"Wrote annotated results to {output_path}")
 
     summary = {
-        "input_file": str(input_path.resolve()),
-        "annotated_output_file": str(output_path.resolve()),
+        "input_file": display_path(input_path),
+        "annotated_output_file": display_path(output_path),
         "delimiter": "\\t" if delimiter == "\t" else delimiter,
         "no_header": str(args.no_header),
         "word_col": word_col,

@@ -7,3 +7,7 @@ __pycache__/
 *#
 *\([Cc]opy\)*
 wkpr/count_exact_phon_matches.py
+*.egg-info/
+build/
+dist/
+.venv/

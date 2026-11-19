@@ -1,3 +1,4 @@
+# UNUSED: this list is not loaded by trasgo. Kept for reference.
 abrevi
 aceler
 acept

@@ -23,7 +23,7 @@ def tr():
         ("unha", '"u.Na'),       # stressed, N in the onset
         ("algunhas", 'al".Gu.Nas'),
         ("e", "E"),              # conjunction with open vowel
-        ("Juan", "xu.aN"),       # j -> x
+        ("José", 'xo".sE'),     # j -> x
         ("Yolanda", 'jo".lan.da'),  # y is not affected by j -> x
     ],
 )
@@ -32,8 +32,8 @@ def test_word(tr, word, expected):
 
 
 def test_text(tr):
-    assert tr.text("Unha casa de Juan en Bayona, e dun can.") == (
-        '"u.Na "ka.sa De xu.aN em ba".jo.na E "DuN "kaN'
+    assert tr.text("O can de Xoana durmía baixo unha árbore.") == (
+        'o "kan de So".a.na Dur".mi.a "Baj.So "u.Na "ar.Bo.re'
     )
 
 

@@ -61,3 +61,14 @@ in code shared by both orthographies, so its output differs from Silaba 0.2 for
 many words: about a third of a 414-word sample in phonetic (`-p`) mode, mainly
 `n`/`N` before consonants, glides in `-áceas`, and some open/closed vowels. All this
 is why we call this option _experimental_.
+
+## Numbered homographs and multi-word entries are not scored (Banco de Voces)
+
+The word-level evaluation skips dictionary entries whose form contains a digit or a
+space (`should_skip_word` in `evaluate_words.py`): 3,028 of 51,949 rows in the
+development set and 892 of 14,793 in the test set. Among them are function words whose
+pronunciation the dictionary distinguishes by part of speech, such as `e1`
+(conjunction, `ɛ`) vs `e2` (the letter, `ˈɛ`), `pero1`/`pero2` and `que1`/`que2`.
+trasgo gives one output per form, so one of the homographs would always count as
+wrong. A possible change is to strip the number and accept a match with any of the
+homographs, as the "combined" Iago score already does.

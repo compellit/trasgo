@@ -115,6 +115,11 @@ Known problems that are not fixed yet are listed in
   the evaluation script adds them (`syllabify_sampa` in `evaluate_words.py`).
 - Iago: the Iago part of `CRPIH_UVigo-GL-Voices_extended` by Proxecto Nós
   (<https://huggingface.co/datasets/proxectonos/CRPIH_UVigo-GL-Voices_extended>).
+  The gold transcriptions are of whole sentences, but the evaluation is word by word:
+  trasgo transcribes each word in isolation, so its cross-word rules are not applied,
+  and word-initial approximants in the gold (`B`, `D`, `G`) are turned into stops before
+  comparing. The Iago score therefore measures word-level transcription; only the
+  Ilenia evaluation covers context.
 - Ilenia: 100 sentences annotated independently by two annotators
   (`evaluation/data/ilenia/annotators/`), then adjudicated (`evaluation/data/ilenia/ilenia_reference.tsv`).
 

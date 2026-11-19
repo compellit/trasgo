@@ -64,6 +64,18 @@ def assimilate_final_nasal(previous: str, following: str) -> str:
     return previous[:-1] + nasal
 
 
+def is_lenition_context(previous_word: str, stop: str) -> bool:
+    """Return True if a word-initial b/d/g becomes an approximant after ``previous_word``.
+
+    This happens after a vowel, s or r, and after l only for b and g
+    (s/r/l contexts from A. Alonso's master's thesis).
+    """
+    last = previous_word[-1].casefold()
+    if last in "aeiouáéíóúüsr":
+        return True
+    return last == "l" and stop.casefold() in "bg"
+
+
 def prepro_text(text: str) -> str:
     """Normalize apostrophes and historical spellings used by the source tool."""
     text = re.sub(rf"(?i)q(?:u)?[{APOSTROPHES}]\s*(?=[{LETTERS}])", "k", text)
@@ -117,15 +129,14 @@ class SilabaText:
                     output[previous_output_index] = assimilate_final_nasal(
                         output[previous_output_index], transcription
                     )
+                initial_stop = re.match(
+                    r"^[^A-Za-z]*([bdg])(?:[lr])?[aeiou]", transcription, re.IGNORECASE
+                )
                 if (
                     self.args.p
                     and previous_word is not None
-                    and re.search(r"[aeiouáéíóúü]$", previous_word, re.IGNORECASE)
-                    and re.match(
-                        r"^[^A-Za-z]*[bdg](?:[lr])?[aeiou]",
-                        transcription,
-                        re.IGNORECASE,
-                    )
+                    and initial_stop is not None
+                    and is_lenition_context(previous_word, initial_stop.group(1))
                 ):
                     transcription = re.sub(
                         r"^([^A-Za-z]*)([bdg])",

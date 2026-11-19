@@ -954,11 +954,13 @@ class Silaba:
                 "de", "sen", "che", "llo", "lla", "lles", "llos", "cho", "cha", "chos",
                 "chas", "por", "e", "mais", "cas", "nola", "nolo", "nolos", "nolas",
                 "llelo", "llela", "llelos", "llelas", "vos", "volos", "vola", "volo", "volas",
-                "cun", "cunha", "cunhas", "cuns", "na", "nas", "no", "nos", "tras",
+                "na", "nas", "no", "nos", "tras",
                 "tralos", "trala", "tralo", "tralas", "da", "das", "do", "dos", "pra", "pro", "pras",
-                "pros", "co", "coa", "coas", "cos", "có", "cá", "cós", "cás",  "un", "uns", "unha", "unhas",                
+                "pros", "co", "coa", "coas", "cos", "có", "cá", "cós", "cás",
                 "polo", "pola", "polas", "polos", "nolo", "nola", "nolos", "nolas",
-                "ma", "mas", "mo", "mos", "moi", "nun", "nuns", "nunha", "nunhas", "nin"]
+                "ma", "mas", "mo", "mos", "moi", "nin"]
+        # un/unha (and cun/nun contractions) are not in this list, so they are
+        # stressed (from A. Alonso's master's thesis).
 
         self.entrada = word.lower()
         self.input_word = self.entrada
@@ -990,6 +992,9 @@ class Silaba:
             self.palavra = sub(r"algunha", "alguNa", self.palavra)
             self.palavra = sub(r"ningunha", "ninguNa", self.palavra)
             self.palavra = sub(r"unha(s)?$", r"uNa\1", self.palavra)
+            # N goes to the onset of the next syllable: u.Na, al.gu.Nas
+            # (from A. Alonso's master's thesis).
+            ats = ats + ["N"]
         elif search(r"nh", self.palavra):
             self.palavra = sub(r"nh", "n", self.palavra)
 
@@ -1017,6 +1022,9 @@ class Silaba:
         self._check_digits()
         self._common_syllable_markup(trip, dip, nc, dig, atc, ats, cd, cdc, br_words, bl_words)
         self._split_syllables_and_stress_ilg(aton)
+        # Conjunction "e" has an open vowel (from A. Alonso's master's thesis).
+        if self.entrada == "e":
+            self.palavra = self.palavra.replace("e[Nc]", "E[Nc]")
         self._apply_vowel_lookups(self.shared)
         deep = self._maybe_return_deep()
         if deep is not None:

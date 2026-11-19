@@ -1,0 +1,3 @@
+input_file	annotated_output_file	delimiter	no_header	word_col	phon_col	mode	compare_mode	ignore_open_close_vowels	flag_c	flag_t	flag_r	flag_h	flag_b	limit	rows_in_input_file	rows_evaluated	rows_skipped	unique_forms_evaluated	exact_matches_by_form	accuracy	character_error_rate	silaba_erro_predictions
+data/banco_de_voces_pronuncia_dev.csv	results/words/dev.tsv	,	True	col_1	col_3	i	exact	False	True	True	False	False	True		51949	48921	3028	44418	42605	0.959183	0.008165	31
+data/banco_de_voces_pronuncia_test.csv	results/words/test.tsv	,	True	col_1	col_3	i	exact	False	True	True	False	False	True		14793	13901	892	13586	12735	0.937362	0.010429	9

@@ -1,0 +1,2 @@
+reference_file	comparison_file	sentences_evaluated	sentences_with_alignment_errors	aligned_sentences	exact_sentence_agreements	sentence_agreement	words_evaluated	exact_word_agreements	word_agreement	total_edit_distance	reference_characters	character_error_rate
+data/ilenia/ilenia_reference.tsv	data/ilenia/annotators/ilenia_annotator_2.tsv	100	0	100	45	0.450000	1366	1285	0.940703	105	9209	0.011402

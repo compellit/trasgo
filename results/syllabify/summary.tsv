@@ -1,3 +1,0 @@
-input_file	annotated_output_file	rows_evaluated	exact_matches	accuracy	wrong_pred
-/home/anxo/compellit/silaba_gl/results/silaba/058.tsv	/home/anxo/compellit/silaba_gl/results/syllabify/058_001.tsv	43612	43576	0.999175	0
-/home/anxo/compellit/silaba_gl/results/silaba/059.tsv	/home/anxo/compellit/silaba_gl/results/syllabify/059_001.tsv	43604	43595	0.999794	0

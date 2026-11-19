@@ -929,7 +929,7 @@ class Silaba:
             self.palavra = sub(r"gu(ou|ei|ai|au|oi)", r"gw\1", self.palavra)
 
         self._check_digits()
-        self._common_syllable_markup(dip, nc, dig, atc, ats, cd, cdc, br_words, bl_words)
+        self._common_syllable_markup([], dip, nc, dig, atc, ats, cd, cdc, br_words, bl_words)
         self._split_syllables_and_stress_pt(aton)
         self._apply_vowel_lookups(self.portuguese)
         deep = self._maybe_return_deep()

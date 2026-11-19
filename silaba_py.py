@@ -945,7 +945,7 @@ class Silaba:
         nc = ["a", "e", "i", "o", "u", "á", "é", "í", "ó", "ú", "w", "ï", "j"]
         dig = ["tS"]
         atc = [r"[kpbvfgtd](r|l)"]
-        ats = ["b", "d", "g", "p", "t", "k", "s", "T", "f", "l", "L", "m", "n", "J", "r", "R", "S"]
+        ats = ["b", "d", "g", "p", "t", "k", "s", "T", "f", "l", "L", "m", "n", "J", "r", "R", "S", "x"]
         cd = ["s", "l", "r", "n", "m", "N", "b", "d", "g", "T"]
         cdc = ["gs", "ks", "bs", "ds", "ns", "ng", "nk", "np", "nt", "nb", "rg", "rk", "rt", "rs", "rd", "st", "ts", "lf", "ls", "lk", "ps", "ks", "k", "p", "f", "t"]
         br_words = ["abroga", "subrep", "subroga", "subruti", "subroti"]
@@ -1004,7 +1004,9 @@ class Silaba:
             (r"ch", "tS"), (r"c(e|é|i|í)", r"T\1"), (r"c", "k"), (r"z", "T"), (r"ll", "L"),
             (r"ñ", "J"), (r"rr", "R"), (r"^r", "R"), (r"(n|m|l|s)r", r"\1R"),
 #            (r"m([^aeiouáéíóúw])?$", r"n\1"), (r"m([^aeiouáéíóúw])", r"n\1"),
-            (r"x$", "ks"), (r"x([ptkcbdgTfs])", r"ks\1"), (r"x", "S"), (r"y", "j")
+            # j as in Spanish names (Juan, José): j -> x has to come before y -> j
+            # (from A. Alonso's master's thesis, with the order fixed).
+            (r"x$", "ks"), (r"x([ptkcbdgTfs])", r"ks\1"), (r"x", "S"), (r"j", "x"), (r"y", "j")
         ]:
             self.palavra = sub(pat, repl, self.palavra)
 

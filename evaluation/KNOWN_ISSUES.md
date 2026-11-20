@@ -54,6 +54,14 @@ adjudicated reference transcribes as one syllable (`"xwaN`, `xwaN`, `xwan`).
 `Juana` → `xu".a.na`, `Juan` → `xu.aN`. The Spanish pronunciation has a diphthong
 (`"xwa.na`). trasgo only makes `u` + vowel a diphthong after `k`/`g` (`cuan` → `"kwaN`).
 
+## `j` in historical spelling becomes `x`
+
+`<j>` is transcribed as `[x]`, which is right for Spanish words and names (`<José>` →
+`[xo".sE]` in broad transcription). In historical Galician spelling, however, `<j>` can also stand
+for `[S]`: `<já>` (current `<xa>`), `<Jan>` (current `<Xan>`, Banco de Voces `[ˈʃaŋ]`). trasgo transcribes as `["xa]`,
+`["xaN]`. Found in the rhyme test corpus (19th-century poetry), where it does not
+change any rhyme label.
+
 ## Portuguese orthography (`-l`) is not evaluated
 
 `-l` works, but no evaluation data covers it. The Galician revisions are partly

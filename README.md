@@ -139,10 +139,11 @@ Known problems that are not fixed yet are listed in
 - Contractions such as `dun`, `nun` and `cunha` are unstressed in the Banco de Voces,
   but stressed in the Ilenia reference and in Iago.
 
-## Credits
+## Citation
 
-Trasgo was developed by Anxo Alonso Pérez and Pablo Ruiz Fabo, based on Silaba 0.2 by
-Marcos Garcia.
+Anxo Alonso Pérez and Pablo Ruiz Fabo (2026). Trasgo: Transcription and Syllabification for Galician. CiTIUS, Universidade de Santiago de Compostela.
+
+Based on Silaba 0.2 by Marcos Garcia (references below).
 
 ## References
 

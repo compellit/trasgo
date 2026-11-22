@@ -16,7 +16,7 @@ from types import SimpleNamespace
 from .text import SilabaText
 from .word import Silaba, SilabaError
 
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 __all__ = ["Transcriber", "make_options", "Silaba", "SilabaText", "SilabaError"]
 
 ORTHOGRAPHIES = ("ilg", "portuguese")

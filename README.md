@@ -111,7 +111,8 @@ Known problems that are not fixed yet are listed in
 
 - Banco de Voces: pronunciations from the *Dicionario de pronuncia da lingua galega*
   (<https://eira.mancomun.gal/mancomun/pronuncia>), randomly split into development
-  and test sets (`evaluation/data_prep/`). The dictionary has no syllable boundaries, so
+  and test sets, with all the pronunciations of a written form kept in the same set
+  (`evaluation/data_prep/`). The dictionary has no syllable boundaries, so
   the evaluation script adds them (`syllabify_sampa` in `evaluate_words.py`).
 - Iago: the Iago part of `CRPIH_UVigo-GL-Voices_extended` by Proxecto Nós
   (<https://huggingface.co/datasets/proxectonos/CRPIH_UVigo-GL-Voices_extended>).
@@ -155,4 +156,8 @@ fonológica para el gallego. *Procesamiento del Lenguaje Natural*, 47, 283–291
 
 ## License
 
-TODO
+Trasgo is licensed under GPLv3; see [LICENSE](LICENSE).
+
+The Banco de Voces and Iago evaluation data are licensed under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); see [Data](#evaluation) for
+their sources and the changes made to them.

@@ -1,0 +1,52 @@
+{
+  "title": "Trasgo: Transcription and Syllabification for Galician",
+  "description": "<p>Trasgo is a rule-based tool for Galician that transcribes single words or running text into a SAMPA-like notation with syllable boundaries and stress. It is a Python port and adaptation of Silaba 0.2 by Marcos Garcia (Garcia &amp; González 2011, 2012), and has no dependencies outside the Python standard library.</p>",
+  "creators": [
+    {
+      "name": "Alonso Pérez, Anxo",
+      "affiliation": "CiTIUS, Universidade de Santiago de Compostela",
+      "orcid": "0009-0007-0143-2656"
+    },
+    {
+      "name": "Ruiz Fabo, Pablo",
+      "affiliation": "CiTIUS, Universidade de Santiago de Compostela",
+      "orcid": "0000-0002-4349-4835"
+    }
+  ],
+  "upload_type": "software",
+  "keywords": [
+    "Galician",
+    "phonetic transcription",
+    "syllabification",
+    "grapheme-to-phoneme"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.1007/978-3-642-28885-2_39",
+      "relation": "references",
+      "resource_type": "publication-conferencepaper",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "https://eira.mancomun.gal/mancomun/pronuncia",
+      "relation": "references",
+      "resource_type": "dataset"
+    },
+    {
+      "identifier": "https://huggingface.co/datasets/proxectonos/CRPIH_UVigo-GL-Voices_extended",
+      "relation": "references",
+      "resource_type": "dataset"
+    }
+  ],
+  "references": [
+    "Garcia, M., & González, I. J. (2012). Automatic Phonetic Transcription by Phonological Derivation. In H. Caseli, A. Villavicencio, A. Teixeira, & F. Perdigão (Eds.), Computational Processing of the Portuguese Language (Vol. 7243, pp. 350-361). Springer. https://doi.org/10.1007/978-3-642-28885-2_39",
+    "Garcia, M., & González López, I. (2011). Conversión fonética automática con información fonológica para el gallego. Procesamiento del Lenguaje Natural, 47, 283-291."
+  ],
+  "license": "gpl-3.0-only",
+  "language": "eng",
+  "grants": [
+    {
+      "id": "10.13039/501100000780::101149659"
+    }
+  ]
+}

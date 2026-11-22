@@ -1,0 +1,49 @@
+cff-version: 1.2.0
+message: "The software can be cited as follows."
+type: software
+title: "Trasgo: Transcription and Syllabification for Galician"
+abstract: "Rule-based phonetic transcription and syllabification for Galician, a Python port and adaptation of Silaba 0.2 by Marcos Garcia."
+authors:
+  - family-names: Alonso Pérez
+    given-names: Anxo
+    affiliation: "CiTIUS, Universidade de Santiago de Compostela"
+    orcid: "https://orcid.org/0009-0007-0143-2656"
+  - family-names: Ruiz Fabo
+    given-names: Pablo
+    affiliation: "CiTIUS, Universidade de Santiago de Compostela"
+    orcid: "https://orcid.org/0000-0002-4349-4835"
+repository-code: "https://github.com/compellit/trasgo"
+license: GPL-3.0-only
+keywords:
+  - Galician
+  - phonetic transcription
+  - syllabification
+  - grapheme-to-phoneme
+references:
+  - type: conference-paper
+    title: "Automatic Phonetic Transcription by Phonological Derivation"
+    authors:
+      - family-names: Garcia
+        given-names: Marcos
+      - family-names: González
+        given-names: Isaac J.
+    year: 2012
+    collection-title: "Computational Processing of the Portuguese Language"
+    volume: 7243
+    start: 350
+    end: 361
+    publisher:
+      name: Springer
+    doi: 10.1007/978-3-642-28885-2_39
+  - type: article
+    title: "Conversión fonética automática con información fonológica para el gallego"
+    authors:
+      - family-names: Garcia
+        given-names: Marcos
+      - family-names: González López
+        given-names: Isaac
+    year: 2011
+    journal: "Procesamiento del Lenguaje Natural"
+    volume: 47
+    start: 283
+    end: 291

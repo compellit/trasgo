@@ -1,8 +1,8 @@
-# TRASGO 
+# Trasgo 
 
-Transcription and Syllabification for Galician.
+Transcription and Syllabification for Galician · 🧝
 
-trasgo 🧝 is a rule-based tool, Python port and adaptation of Silaba 0.2, a Perl program by Marcos Garcia
+Trasgo is a rule-based tool, Python port and adaptation of Silaba 0.2, a Perl program by Marcos Garcia
 (Garcia & González 2011, 2012). It transcribes single words or running text into a
 SAMPA-like notation with syllable boundaries and stress. It has no dependencies
 outside the Python standard library.
@@ -32,7 +32,7 @@ echo "cabaza" | trasgo -i -s -t
 # k[At]a[Nc]".B[At]a[Nc].T[At]a[Nc]
 ```
 
-Without a text argument, trasgo reads standard input and writes one line per input line.
+Without a text argument, `trasgo` reads standard input and writes one line per input line.
 Punctuation is omitted from the output, and words that cannot be transcribed come
 out as `erro`.
 
@@ -80,7 +80,7 @@ words are separated by spaces. Some of the symbols:
 | `x` | voiceless velar fricative | `J`, `L` | palatal nasal, palatal lateral |
 | `N` | velar nasal (word-final and in `unha`) | `r`, `R` | tap, trill |
 
-## What trasgo changes with respect to Silaba 0.2
+## What Trasgo changes with respect to Silaba 0.2
 
 - Python port of the Perl program, with the same options.
 - Rule and list revisions for ILG orthography, developed on the Banco de Voces
@@ -96,7 +96,7 @@ words are separated by spaces. Some of the symbols:
 ## Evaluation
 
 Everything needed to reproduce the results is in `evaluation/`. After installing
-trasgo, run `evaluation/run_all.sh`. Results are in `evaluation/results/`.
+`trasgo`, run `evaluation/run_all.sh`. Results are in `evaluation/results/`.
 Known problems that are not fixed yet are listed in
 [`evaluation/KNOWN_ISSUES.md`](evaluation/KNOWN_ISSUES.md).
 
@@ -116,7 +116,7 @@ Known problems that are not fixed yet are listed in
 - Iago: the Iago part of `CRPIH_UVigo-GL-Voices_extended` by Proxecto Nós
   (<https://huggingface.co/datasets/proxectonos/CRPIH_UVigo-GL-Voices_extended>).
   The gold transcriptions are of whole sentences, but the evaluation is word by word:
-  trasgo transcribes each word in isolation, so its cross-word rules are not applied,
+  Trasgo transcribes each word in isolation, so its cross-word rules are not applied,
   and word-initial approximants in the gold (`B`, `D`, `G`) are turned into stops before
   comparing. The Iago score therefore measures word-level transcription; only the
   Ilenia evaluation covers context.
@@ -140,7 +140,7 @@ Known problems that are not fixed yet are listed in
 
 ## Credits
 
-trasgo was developed by Anxo Alonso Pérez and Pablo Ruiz Fabo, based on Silaba 0.2 by
+Trasgo was developed by Anxo Alonso Pérez and Pablo Ruiz Fabo, based on Silaba 0.2 by
 Marcos Garcia.
 
 ## References

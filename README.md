@@ -1,5 +1,7 @@
 # Trasgo 
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24443050.svg)](https://doi.org/10.5281/zenodo.24443050)
+
 Transcription and Syllabification for Galician · 🧝
 
 Trasgo is a rule-based tool, Python port and adaptation of Silaba 0.2, a Perl program by Marcos Garcia
@@ -141,7 +143,7 @@ Known problems that are not fixed yet are listed in
 
 ## Citation
 
-Anxo Alonso Pérez and Pablo Ruiz Fabo (2026). Trasgo: Transcription and Syllabification for Galician. CiTIUS, Universidade de Santiago de Compostela.
+Anxo Alonso Pérez and Pablo Ruiz Fabo (2026). Trasgo: Transcription and Syllabification for Galician. CiTIUS, Universidade de Santiago de Compostela. https://doi.org/10.5281/zenodo.24443050
 
 Based on Silaba 0.2 by Marcos Garcia (references below).
 

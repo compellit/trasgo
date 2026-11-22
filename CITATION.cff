@@ -12,6 +12,7 @@ authors:
     given-names: Pablo
     affiliation: "CiTIUS, Universidade de Santiago de Compostela"
     orcid: "https://orcid.org/0000-0002-4349-4835"
+doi: 10.5281/zenodo.24443050
 repository-code: "https://github.com/compellit/trasgo"
 license: GPL-3.0-only
 keywords:
